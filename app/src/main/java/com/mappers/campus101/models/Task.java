@@ -1,9 +1,11 @@
+package com.mappers.campus101.models;
+
 /**
  * A class that represents tasks
  * @author Kadir Can Çelik
  * @date 21.03.2016
  */
-public class Task implements Cloneable{
+public class Task {
     private int number;
     private TaskStatus status;
     private String description;
@@ -14,10 +16,6 @@ public class Task implements Cloneable{
         status = TaskStatus.NOT_COMPLETED;
         // Description will be requested from the server according to task number
         description = "";
-    }
-
-    public Task clone() {
-        return new Task(this.number);
     }
 
     public void setCompleted () {

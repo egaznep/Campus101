@@ -1,3 +1,5 @@
+package com.mappers.campus101.models;
+
 /**
  * An enumerated list to store department information
  * @author Kadir Can Çelik

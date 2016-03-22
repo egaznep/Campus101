@@ -1,3 +1,5 @@
+package com.mappers.campus101.models;
+
 import java.util.ArrayList;
 
 /**
