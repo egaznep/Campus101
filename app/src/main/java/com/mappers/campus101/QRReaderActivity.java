@@ -9,7 +9,14 @@ import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
+/*
+ * QR reader activity
+ * @author Kadir Can Çelik
+ * @date 17.04.2016
+ */
+
 public class QRReaderActivity extends Activity implements ZXingScannerView.ResultHandler {
+    // Instance variable
     private ZXingScannerView mScannerView;
 
     @Override

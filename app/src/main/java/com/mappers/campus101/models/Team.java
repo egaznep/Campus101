@@ -8,21 +8,16 @@ import java.util.ArrayList;
  * @date 21.03.2016
  */
 public class Team {
+    // Instance variable
     private ArrayList<Student> students;
 
+    // Constructor
     public Team() {
         students = new ArrayList<Student>();
     }
 
+    // Adds a student to team
     public void addStudent(Student student) {
         students.add (student);
-    }
-
-    public boolean canBeAdded (Student student) {
-        boolean result;
-        result = true;
-        if ( students.size() != 0 ) {
-        }
-        return result;
     }
 }
