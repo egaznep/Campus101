@@ -33,7 +33,7 @@ public class VolleyManager {
     // Sends the password hashed as md5
     public void sendSignUpRequest(int id, String password, String name, String email, String department) {
         // Hash the password with md5
-        String password_md5 = createHash(Integer.toString());
+        String password_md5 = createHash(password);
 
         // Create full address for the request
         // Since php code uses get requests, send the parameters to php code directly
