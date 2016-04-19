@@ -18,7 +18,7 @@ public class MD5Creator {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        digesterr.reset();
+        digester.reset();
 
         digester.update(toBeHashed.getBytes());
         digested = digester.digest();
