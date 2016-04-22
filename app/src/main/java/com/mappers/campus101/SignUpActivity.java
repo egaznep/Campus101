@@ -4,20 +4,24 @@
     import android.support.v7.app.ActionBarActivity;
     import android.os.Bundle;
     import android.view.View;
+    import android.widget.AdapterView;
+    import android.widget.ArrayAdapter;
     import android.widget.Button;
     import android.widget.EditText;
+    import android.widget.Spinner;
 
     import com.mappers.campus101.http.VolleyManager;
+    import com.mappers.campus101.models.Department;
 
-    public class SignUpActivity extends ActionBarActivity implements View.OnClickListener{
+    public class SignUpActivity extends ActionBarActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener{
 
         private EditText editTextstudentID;
         private EditText editTextName;
         private EditText editTextSurname;
         private EditText editTextPassword;
-        private EditText editTextDepartment;
+        private Spinner spinnerDepartment;
         private VolleyManager signUpManager = new VolleyManager();
-
+        private String department;
         private Button buttonRegister;
         private Button buttonLogin;
 
@@ -31,12 +35,14 @@
             editTextName = (EditText) findViewById(R.id.editTextName);
             editTextSurname = (EditText) findViewById(R.id.editTextSurname);
             editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-            editTextDepartment = (EditText) findViewById(R.id.editTextDepartment);
+            spinnerDepartment = (Spinner) findViewById(R.id.spinnerDepartment);
 
             buttonRegister = (Button) findViewById(R.id.buttonRegister);
             buttonLogin = (Button) findViewById(R.id.buttonLogin1);
             buttonLogin.setOnClickListener(this);
             buttonRegister.setOnClickListener(this);
+            spinnerDepartment.setOnItemSelectedListener(this);
+            spinnerDepartment.setAdapter(new ArrayAdapter<Department>(this, android.R.layout.simple_spinner_item, Department.values()));
         }
 
 
@@ -46,7 +52,7 @@
 
             if(view == buttonRegister)
             {
-                signUpManager.sendSignUpRequest(String.valueOf(editTextstudentID.getText()),  editTextPassword.getText().toString(), editTextName.getText().toString(), "xx@hotmail.com",  editTextDepartment.getText().toString());
+                signUpManager.sendSignUpRequest(String.valueOf(editTextstudentID.getText()) +  String.valueOf(editTextSurname.getText()),  editTextPassword.getText().toString(), editTextName.getText().toString(), "xx@hotmail.com",  department);
                 Intent intent = new Intent( SignUpActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -58,4 +64,14 @@
         }
 
 
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+        {
+            department = adapterView.getItemAtPosition(i).toString();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+
+        }
     }

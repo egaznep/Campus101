@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @author Kadir Can Çelik
  * @date 21.03.2016
  */
-public class Student {
+public class Student{
 
     // Instance variables
     private String id;

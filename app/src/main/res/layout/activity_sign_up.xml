@@ -89,11 +89,11 @@
                 android:singleLine="true"
                 android:background="#95ffffff"
                 android:layout_margin="4dp" />
-            <EditText
-                android:id="@+id/editTextDepartment"
+            <Spinner
+                android:id="@+id/spinnerDepartment"
                 android:layout_width="290dp"
                 android:layout_height="41dp"
-                android:gravity="center"
+                android:gravity="right"
                 android:hint="@string/prompt_department"
                 android:imeActionId="@+id/login"
                 android:imeActionLabel="@string/action_sign_in_short"
@@ -102,7 +102,8 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:background="#95ffffff"
-                android:layout_margin="4dp" />
+                android:layout_margin="4dp"
+                android:spinnerMode="dropdown" />
             <Button
                 android:id="@+id/buttonRegister"
                 style="?android:textAppearanceSmall"
