@@ -15,7 +15,7 @@ public class LoginActivity extends ActionBarActivity {
     private EditText editTextPassword;
     private Button buttonLogin;
 
-    private VolleyManager LoginManager = new VolleyManager("asdasfsaf");
+    private VolleyManager LoginManager = new VolleyManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +29,6 @@ public class LoginActivity extends ActionBarActivity {
     public void onClick(View v) {
         //Calling the login function
 
-        LoginManager.sendLoginRequest( Integer.parseInt(String.valueOf(editTextstudentID)), editTextPassword.getText().toString());
-
-        Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-        if ( v == buttonLogin)
-            startActivity(intent);
+        LoginManager.sendLoginRequest( String.valueOf(editTextstudentID.getText()), editTextPassword.getText().toString());
     }
 }

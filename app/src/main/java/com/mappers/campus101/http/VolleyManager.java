@@ -1,5 +1,7 @@
 package com.mappers.campus101.http;
 
+import android.util.Log;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -19,9 +21,9 @@ public class VolleyManager {
     private String mAddress;
 
     // Constructor sets the VolleySingleton object and address of the server
-    public VolleyManager(String address) {
+    public VolleyManager() {
         mVolleyInstance = VolleySingleton.getInstance();
-        mAddress = address;
+        mAddress = "http://46.101.121.195";
     }
 
     // Adds a request to the requestqueue of Volley
@@ -31,29 +33,33 @@ public class VolleyManager {
 
     // Sends a sign-up request to the server
     // Sends the password hashed as md5
-    public void sendSignUpRequest(int id, String password, String name, String email, String department) {
+    public void sendSignUpRequest(String id, String password, String name, String email, String department) {
+        Log.i ("Info", "Signup request");
         // Hash the password with md5
         String password_md5 = createHash(password);
+
+        Log.i ("Hashed", password_md5);
 
         // Create full address for the request
         // Since php code uses get requests, send the parameters to php code directly
         String signUpRequestAddress = mAddress + "/signup.php?password_md5=" + password_md5 + "&id="
                 + id + "&name=" + name + "&email=" + email + "&department=" + department;
 
+        Log.i ("Address", signUpRequestAddress);
+
         // Create the request with the address and response listener
         // Since volley is working asynchronous, a new method has to be called
         // when a response from server comes
-        StringRequest signUpRequest = new StringRequest(Request.Method.GET,
-                signUpRequestAddress,
+        StringRequest signUpRequest = new StringRequest(signUpRequestAddress,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        Log.i ("Response", response);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                Log.e ("Error", error.toString());
             }
         });
 
@@ -63,7 +69,9 @@ public class VolleyManager {
 
     // Send a login request to the server
     // Only id and hashed password is needed for this
-    public void sendLoginRequest(int id, String password_md5) {
+    public void sendLoginRequest(String id, String password) {
+        String password_md5 = createHash(password);
+
         // Create the address for login request
         String loginRequestAddress = mAddress + "/login.php?password_md5=" + password_md5
                 + "&id=" + id;
@@ -88,8 +96,8 @@ public class VolleyManager {
     }
 
     // TO-DO : Implement later
-    public boolean loggedIn (String response) {
-        return true;
+    public void loggedIn (String response) {
+        Log.i ("Logged in", response);
     }
 
     // Send an addqueue request to server
@@ -102,8 +110,7 @@ public class VolleyManager {
         String addQueueRequestAddress = mAddress + "/addqueue.php?" + "&id=" + id;
 
         // Create the request with the address and response listener
-        StringRequest addQueueRequest = new StringRequest(Request.Method.GET,
-                addQueueRequestAddress,
+        StringRequest addQueueRequest = new StringRequest(addQueueRequestAddress,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

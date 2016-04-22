@@ -16,7 +16,7 @@
         private EditText editTextSurname;
         private EditText editTextPassword;
         private EditText editTextDepartment;
-        private  VolleyManager signUpManager = new VolleyManager("asdsaf");
+        private VolleyManager signUpManager = new VolleyManager();
 
         private Button buttonRegister;
         private Button buttonLogin;
@@ -46,18 +46,15 @@
 
             if(view == buttonRegister)
             {
-                //signUpManager.sendSignUpRequest(Integer.parseInt(String.valueOf(editTextstudentID)),  editTextPassword.getText().toString(), editTextName.getText().toString(), "xx@hotmail.com",  editTextDepartment.getText().toString());
+                signUpManager.sendSignUpRequest(String.valueOf(editTextstudentID.getText()),  editTextPassword.getText().toString(), editTextName.getText().toString(), "xx@hotmail.com",  editTextDepartment.getText().toString());
                 Intent intent = new Intent( SignUpActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
             else if( view == buttonLogin)
             {
-                //signUpManager.sendLoginRequest( Integer.parseInt(String.valueOf(editTextstudentID)), editTextPassword.getText().toString());
                 Intent intent = new Intent( SignUpActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
-
-
         }
 
 
