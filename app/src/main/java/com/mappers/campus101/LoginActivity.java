@@ -1,5 +1,6 @@
 package com.mappers.campus101;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -29,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
         //Calling the login function
 
         LoginManager.sendLoginRequest( String.valueOf(editTextstudentID.getText()), editTextPassword.getText().toString());
-
+        Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
+        startActivity(intent);
     }
 }
