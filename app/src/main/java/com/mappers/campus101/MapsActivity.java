@@ -2,11 +2,13 @@ package com.mappers.campus101;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -14,7 +16,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
     private GoogleMap mMap;
 
@@ -42,25 +44,72 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng bilkent = new LatLng(39.875425, 32.751971);
-        mMap.addMarker(new MarkerOptions().position(bilkent).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(bilkent));
+        // Setting the locations of the buildings of Bilkent
+        LatLng odeon = new LatLng(39.875425, 32.751971);
+        LatLng library = new LatLng(39.870344, 32.749576);
+        LatLng B_Building = new LatLng(39.868754, 32.748069);
+        LatLng G_Building = new LatLng(39.868684, 32.749662);
+        LatLng T_Building = new LatLng(39.868279, 32.749241);
+        LatLng SB_Building = new LatLng(39.868273, 32.748187);
+        LatLng SA_Building = new LatLng(39.867774, 32.748294);
+        LatLng AH_Buildings = new LatLng(39.867902, 32.749418);
+        LatLng M_Building = new LatLng(39.867514, 32.749425);
+        LatLng EB_Building = new LatLng(39.871197, 32.750064);
+        LatLng dinary = new LatLng(39.870598, 32.750541);
+        LatLng EE_Building = new LatLng(39.872082, 32.750721);
+        LatLng sportCenter = new LatLng(39.866629, 32.748454);
+        LatLng FF_Building = new LatLng(39.865929, 32.748818);
+        LatLng V_Building = new LatLng(39.867032, 32.749414);
+
+
+        //Adding MArkers
+        mMap.addMarker(new MarkerOptions().position(odeon).title("ODEON"));
+        mMap.addMarker(new MarkerOptions().position(library).title("Kütüphane"));
+        mMap.addMarker(new MarkerOptions().position(B_Building).title("Hukuk Fakültesi"));
+        mMap.addMarker(new MarkerOptions().position(G_Building).title("G Binası"));
+        mMap.addMarker(new MarkerOptions().position(T_Building).title("T Binası"));
+        mMap.addMarker(new MarkerOptions().position(SB_Building).title("SB Binası"));
+        mMap.addMarker(new MarkerOptions().position(SA_Building).title("SA Binası"));
+        mMap.addMarker(new MarkerOptions().position(AH_Buildings).title("İnsani Bilimler Fakuültesi"));
+        mMap.addMarker(new MarkerOptions().position(M_Building).title("İktsat Binası"));
+        mMap.addMarker(new MarkerOptions().position(EB_Building).title("Mühendislik ve Rektörlük Binası"));
+        mMap.addMarker(new MarkerOptions().position(dinary).title("Yemekhane"));
+        mMap.addMarker(new MarkerOptions().position(EE_Building).title("Elektrik Elektronik Müh. Binası"));
+        mMap.addMarker(new MarkerOptions().position(sportCenter).title("Merkez Spor Salonu"));
+        mMap.addMarker(new MarkerOptions().position(FF_Building).title("Güzel Sanatlar Fakültesi"));
+        mMap.addMarker(new MarkerOptions().position(V_Building).title("İşletme Fakültesi"));
+
+
+
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(odeon));
         mMap.moveCamera(CameraUpdateFactory.zoomTo(17));
         MarkerOptions mp = new MarkerOptions();
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
         if(ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION)){
+                    Manifest.permission.ACCESS_FINE_LOCATION)){
 
             }
             else{
                 ActivityCompat.requestPermissions(this, new String[]
-                        {Manifest.permission.ACCESS_COARSE_LOCATION},0);
+                        {Manifest.permission.ACCESS_FINE_LOCATION},0);
             }
         }
         mMap.setMyLocationEnabled(true);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        mMap.clear();
+        MarkerOptions mOpt = new MarkerOptions();
+        mOpt.position(new LatLng(location.getLatitude(),location.getLongitude()));
+        mOpt.title("Current Position");
+        mMap.addMarker(mOpt);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                new LatLng( location.getLatitude(), location.getLongitude() ),17));
+
     }
 }
