@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @author Kadir Can Çelik
  * @date 21.03.2016
  */
-public class Student{
+public class Student implements Locatable{
 
     // Instance variables
     private String id;
@@ -16,6 +16,7 @@ public class Student{
     private String password;
     private Department department;
     private ArrayList<Task> tasks;
+    private Location location;
 
     // Constructor
     public Student (String id, String name, String surname, String password, Department department) {
@@ -61,5 +62,25 @@ public class Student{
             history.add (task);
         }
         return history;
+    }
+
+    @Override
+    public void setLocation(double longitude, double latitude) {
+        location.setLocation(longitude, latitude);
+    }
+
+    @Override
+    public double getLongitude() {
+        return 0;
+    }
+
+    @Override
+    public double getLatitude() {
+        return location.getLatitude();
+    }
+
+    @Override
+    public boolean isAtLocation(Location loc) {
+        return location.isAtLocation( loc);
     }
 }

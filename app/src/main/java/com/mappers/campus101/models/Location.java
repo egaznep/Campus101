@@ -38,7 +38,7 @@ public class Location implements Locatable
     // implementation of method from Locatable interface
     public boolean isAtLocation( Location loc)
     {
-        return loc.getLongitude() == this.longitude && loc.getLatitude() == this.latitude;
+        return (loc.getLongitude() == this.longitude) && (loc.getLatitude() == this.latitude);
     }
 
     // updates the longitude and tatitude
