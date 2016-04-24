@@ -78,7 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng V_Building = new LatLng(39.867032, 32.749414);
 
 
-        //Adding MArkers
+        //Adding Markers
         mMap.addMarker(new MarkerOptions().position(odeon).title("ODEON"));
         mMap.addMarker(new MarkerOptions().position(library).title("Kütüphane"));
         mMap.addMarker(new MarkerOptions().position(B_Building).title("Hukuk Fakültesi"));
@@ -102,7 +102,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.zoomTo(17));
         MarkerOptions mp = new MarkerOptions();
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
-
+        mMap.setPadding(0,100,0,0);
         if(ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -118,8 +118,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-        mMap.clear();
+    public void onLocationChanged(Location location) {;
         MarkerOptions mOpt = new MarkerOptions();
         mOpt.position(new LatLng(location.getLatitude(),location.getLongitude()));
         mOpt.title("Current Position");
