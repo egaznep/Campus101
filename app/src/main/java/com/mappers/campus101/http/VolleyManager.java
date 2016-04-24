@@ -1,11 +1,21 @@
 package com.mappers.campus101.http;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.mappers.campus101.LoginActivity;
+import com.mappers.campus101.MapsActivity;
+import com.mappers.campus101.SignUpActivity;
+import com.mappers.campus101.models.Student;
+
+import java.util.ArrayList;
 
 import static com.mappers.campus101.models.MD5Creator.createHash;
 
@@ -19,6 +29,8 @@ public class VolleyManager {
     // Instance variables
     private VolleySingleton mVolleyInstance;
     private String mAddress;
+    private boolean loggedIn;
+    private Student currentStudent;
 
     // Constructor sets the VolleySingleton object and address of the server
     public VolleyManager() {
@@ -65,6 +77,8 @@ public class VolleyManager {
 
         // Add the request to the queue
         addRequest(signUpRequest);
+
+        currentStudent = new Student(id);
     }
 
     // Send a login request to the server
@@ -82,7 +96,7 @@ public class VolleyManager {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        loggedIn(response);
+                        // loggedIn(response, );
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -93,11 +107,22 @@ public class VolleyManager {
 
         // Add the request to queue
         addRequest(loginRequest);
+        currentStudent = new Student(id);
     }
 
     // TO-DO : Implement later
-    public void loggedIn (String response) {
+    public void loggedIn (String response, Activity activity) {
+
         Log.i ("Logged in", response);
+        if (response.equals ("Success")) {
+
+            loggedIn = true;
+        }
+
+    }
+    public boolean getLoggedIn()
+    {
+        return loggedIn;
     }
 
     // Send an addqueue request to server
@@ -188,5 +213,37 @@ public class VolleyManager {
     // TO-DO : Implement later
     public void finishTaskResponse(String response) {
 
+    }
+
+    public ArrayList<String> getTeamMembers () {
+        String requestAddress = mAddress + "/getTeamMembers.php" + "&id=" + currentStudent.getId();
+        ArrayList<String> result = new ArrayList<String>();
+        result.add("Sample student1");
+        result.add("Sample student2");
+        result.add("Sample student3");
+        return  result;
+
+
+    }
+    public String[] getTeamMembers ( final Activity activity) {
+        final String[] teamMembers = new String[1];
+        String requestAddress = mAddress + "/getTeamMembers.php" + "&id=" + currentStudent.getId();
+        Log.i ("TAG:", "Get Team Members");
+        Log.i ("Address", requestAddress);
+        StringRequest request = new StringRequest(requestAddress,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.i ("Cevap:", response);
+                        teamMembers[0] = response;
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i ("Hata", error.toString());
+            }
+        });
+        addRequest(request);
+        return teamMembers;
     }
 }

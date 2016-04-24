@@ -1,12 +1,17 @@
 package com.mappers.campus101;
 
 import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -15,10 +20,15 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.mappers.campus101.http.VolleyManager;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, View.OnClickListener {
 
     private GoogleMap mMap;
+    private Button buttonQR;
+    private Button buttonTeam;
+    private Button buttonQuestion;
+    private VolleyManager mapManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +38,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        buttonQR = (Button) findViewById(R.id.buttonQR);
+        buttonTeam = (Button) findViewById(R.id.buttonTeam);
+        buttonQuestion = (Button) findViewById(R.id.buttonQuestion);
+        buttonTeam.setOnClickListener(this);
+        buttonQR.setOnClickListener(this);
+        mapManager = new VolleyManager();
     }
 
 
@@ -110,6 +126,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(mOpt);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng( location.getLatitude(), location.getLongitude() ),17));
+
+    }
+    @Override
+    public void onClick(View v)
+    {
+        if(v == buttonQR)
+        {
+            Intent qrIntent = new Intent(this, QRReaderActivity.class);
+            startActivity(qrIntent);
+        }
+        else if( v == buttonTeam)
+        {
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            String teamMembersString = "";
+
+            teamMembersString = mapManager.getTeamMembers().get(0);
+
+            alertDialog.setTitle("Team Members");
+            alertDialog.setMessage(teamMembersString);
+
+            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
+
+        }
+        else if(v == buttonQuestion )
+        {
+
+        }
 
     }
 }

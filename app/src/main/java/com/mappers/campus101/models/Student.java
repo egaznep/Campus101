@@ -26,6 +26,10 @@ public class Student{
         this.department = department;
         tasks = new ArrayList<>();
     }
+    public  Student( String id)
+    {
+        this.id = id;
+    }
 
     // Getter methods
     public String getId() {
