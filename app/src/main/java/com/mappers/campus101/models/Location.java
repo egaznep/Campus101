@@ -6,7 +6,7 @@ package com.mappers.campus101.models;
  */
 public class Location implements Locatable
 {
-    // intance variables
+    // instance variables
     private double longitude;
     private double latitude;
 
@@ -41,10 +41,14 @@ public class Location implements Locatable
         return (loc.getLongitude() == this.longitude) && (loc.getLatitude() == this.latitude);
     }
 
-    // updates the longitude and tatitude
+    // updates the longitude and latitude
     private void updateLocation( double longitude, double latitude)
     {
         setLocation( longitude, latitude);
     }
 
+    public String toString()
+    {
+        return "Longitude: " + longitude + "\n Latitude: " + latitude;
+    }
 }

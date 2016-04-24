@@ -90,8 +90,10 @@ public class Building implements Locatable
     // toString Method
     public String toString()
     {
-        return "ID: " + buildingId + "Name: " + name + "Location: " + location + "Range: " + range +
-                "Capacity: " + capacity + "Current Number of Students: " + currentNumberOfStudents;
+        return "ID: " + buildingId + "\nName: " + name
+                + "\nLocation: " + location + "\nRange: "
+                + range + "\nCapacity: " + capacity
+                + "\nCurrent Number of Students: " + currentNumberOfStudents;
     }
 
     // methods from Locatable
