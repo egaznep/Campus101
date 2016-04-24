@@ -9,9 +9,9 @@ public class Building implements Locatable
     private int buildingId;
     private String name;
     private int range;
-    private Location location;
     private int capacity;
     private int currentNumberOfStudents;
+    private Location location;
 
     // constructor
     public Building( int buildingId, String name, int range, Location location, int capacity)
