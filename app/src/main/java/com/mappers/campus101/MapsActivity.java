@@ -141,7 +141,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             String teamMembersString = "";
 
-            teamMembersString = mapManager.getTeamMembers().get(0);
+            teamMembersString = mapManager.getTeamMembers(this)[0];
 
             alertDialog.setTitle("Team Members");
             alertDialog.setMessage(teamMembersString);
