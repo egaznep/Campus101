@@ -1,18 +1,23 @@
     package com.mappers.campus101;
 
     import android.content.Intent;
-    import android.support.v7.app.ActionBarActivity;
-    import android.os.Bundle;
-    import android.support.v7.app.AppCompatActivity;
-    import android.view.View;
-    import android.widget.AdapterView;
-    import android.widget.ArrayAdapter;
-    import android.widget.Button;
-    import android.widget.EditText;
-    import android.widget.Spinner;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 
-    import com.mappers.campus101.http.VolleyManager;
-    import com.mappers.campus101.models.Department;
+import com.mappers.campus101.http.VolleyManager;
+import com.mappers.campus101.models.Department;
+
+    /*
+     * Sign up activity
+     * @autor Yılmaz Korkmaz
+     * @date 20.04.2016
+     */
 
     public class SignUpActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener{
 

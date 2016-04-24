@@ -1,21 +1,13 @@
 package com.mappers.campus101.http;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.mappers.campus101.LoginActivity;
-import com.mappers.campus101.MapsActivity;
-import com.mappers.campus101.SignUpActivity;
 import com.mappers.campus101.models.Student;
-
-import java.util.ArrayList;
 
 import static com.mappers.campus101.models.MD5Creator.createHash;
 
@@ -215,16 +207,7 @@ public class VolleyManager {
 
     }
 
-    public ArrayList<String> getTeamMembers () {
-        String requestAddress = mAddress + "/getTeamMembers.php" + "&id=" + currentStudent.getId();
-        ArrayList<String> result = new ArrayList<String>();
-        result.add("Sample student1");
-        result.add("Sample student2");
-        result.add("Sample student3");
-        return  result;
 
-
-    }
     public String[] getTeamMembers ( final Activity activity) {
         final String[] teamMembers = new String[1];
         String requestAddress = mAddress + "/getTeamMembers.php" + "&id=" + currentStudent.getId();

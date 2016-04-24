@@ -11,7 +11,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.AbsoluteLayout;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,9 +24,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.mappers.campus101.http.VolleyManager;
 
+/*
+ * Map activity
+ * @author Kaan Özkara & Yılmaz Korkmaz
+ * @date 22.04.2016
+ * TODO: Show user's location, Handle the Task Button
+ */
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, View.OnClickListener {
 
     private GoogleMap mMap;
+    private FrameLayout frameLayout;
+    private AbsoluteLayout absLayout ;
     private Button buttonQR;
     private Button buttonTeam;
     private Button buttonQuestion;
@@ -38,6 +49,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        frameLayout = new FrameLayout(this);
+        absLayout = new AbsoluteLayout(this);
+
+
         buttonQR = (Button) findViewById(R.id.buttonQR);
         buttonTeam = (Button) findViewById(R.id.buttonTeam);
         buttonQuestion = (Button) findViewById(R.id.buttonQuestion);
@@ -102,7 +117,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.zoomTo(17));
         MarkerOptions mp = new MarkerOptions();
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
-        mMap.setPadding(0,100,0,0);
+        //mMap.setPadding(0,150,0,0);
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
         if(ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -137,13 +154,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         else if( v == buttonTeam)
         {
+            frameLayout.requestDisallowInterceptTouchEvent(true);
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             String teamMembersString = "";
 
-            teamMembersString = mapManager.getTeamMembers(this)[0];
+            //teamMembersString = mapManager.getTeamMembers(this)[0]; //To be implemented later
 
             alertDialog.setTitle("Team Members");
-            alertDialog.setMessage(teamMembersString);
+            alertDialog.setMessage("Hello word");           //Sample Team String
 
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                     new DialogInterface.OnClickListener() {
@@ -157,7 +175,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         else if(v == buttonQuestion )
         {
 
+
         }
 
     }
+
 }
