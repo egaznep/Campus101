@@ -23,7 +23,7 @@ public class QRReaderActivity extends Activity implements ZXingScannerView.Resul
     protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mScannerView = new ZXingScannerView(this);
-        setContentView(R.layout.activity_qrreader);
+        setContentView(mScannerView);
     }
 
     @Override
