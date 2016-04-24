@@ -9,6 +9,12 @@ import android.widget.EditText;
 
 import com.mappers.campus101.http.VolleyManager;
 
+/*
+ * Login activity
+ * @author Kaan Özkara
+ * @date 20.04.2016
+ */
+
 public class LoginActivity extends AppCompatActivity {
 
     private EditText editTextstudentID;

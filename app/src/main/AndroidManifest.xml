@@ -4,9 +4,10 @@
 
     <!-- Permission for QR -->
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- Permissions for Map Acticity -->
+    <!-- Permissions for Map Activity -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
