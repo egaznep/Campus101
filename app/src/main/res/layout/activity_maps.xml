@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.mappers.campus101.MyFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,44 +11,42 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.mappers.campus101.MapsActivity" />
+        tools:context="com.mappers.campus101.MapsActivity"
+        tools:layout="@layout/activity_maps" />
 
 
-    <AbsoluteLayout
-        android:layout_width="144dp"
-        android:layout_height="191dp"
+    <RelativeLayout
+        android:layout_width="172dp"
+        android:layout_height="348dp"
         android:orientation="horizontal"
         android:weightSum="1"
         android:layout_gravity="left|top">
 
+
         <Button
             android:id="@+id/buttonQR"
-            android:layout_width="101dp"
+            android:layout_width="100dp"
             android:layout_height="50dp"
-            android:layout_gravity="right"
-            android:text="Read QR"
-            android:layout_x="4dp"
-            android:layout_y="10dp" />
+            android:layout_alignParentTop="true"
+            android:text="Read QR" />
+
+
         <Button
             android:id="@+id/buttonTeam"
-            android:layout_width="101dp"
+            android:layout_width="100dp"
             android:layout_height="50dp"
-            android:layout_gravity="left"
+            android:layout_below="@id/buttonQR"
             android:text="Team"
-            android:layout_marginTop="15dp"
-            android:layout_x="2dp"
-            android:layout_y="111dp"/>
+            android:layout_marginTop="5dp" />
 
         <Button
-            android:id="@+id/buttonQuestion"
-            android:layout_width="102dp"
+            android:id="@+id/buttonTask"
+            android:layout_width="100dp"
             android:layout_height="50dp"
-            android:layout_gravity="left"
-            android:text="Task"
-            android:layout_marginTop="15dp"
-            android:layout_x="2dp"
-            android:layout_y="61dp"/>
+            android:layout_below="@id/buttonTeam"
+            android:text="Task" />
 
-    </AbsoluteLayout>
 
-</FrameLayout>
+    </RelativeLayout>
+
+</com.mappers.campus101.MyFrameLayout>

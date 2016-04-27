@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
-import android.widget.AbsoluteLayout;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
@@ -35,10 +34,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private FrameLayout frameLayout;
-    private AbsoluteLayout absLayout ;
+    private MyRelativeLayout relativeLayout ;
     private Button buttonQR;
+    private Button buttonTask;
     private Button buttonTeam;
-    private Button buttonQuestion;
     private VolleyManager mapManager;
 
     @Override
@@ -50,15 +49,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         frameLayout = new FrameLayout(this);
-        absLayout = new AbsoluteLayout(this);
+        relativeLayout = new MyRelativeLayout(this);
 
 
         buttonQR = (Button) findViewById(R.id.buttonQR);
+        buttonTask = (Button) findViewById(R.id.buttonTask);
         buttonTeam = (Button) findViewById(R.id.buttonTeam);
-        buttonQuestion = (Button) findViewById(R.id.buttonQuestion);
+
+        buttonTask.setOnClickListener(this);
         buttonTeam.setOnClickListener(this);
         buttonQR.setOnClickListener(this);
         mapManager = new VolleyManager();
+
     }
 
 
@@ -134,6 +136,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMyLocationEnabled(true);
     }
 
+
     @Override
     public void onLocationChanged(Location location) {;
         MarkerOptions mOpt = new MarkerOptions();
@@ -154,7 +157,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         else if( v == buttonTeam)
         {
-            frameLayout.requestDisallowInterceptTouchEvent(true);
+            relativeLayout.requestDisallowInterceptTouchEvent(true);
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             String teamMembersString = "";
 
@@ -170,13 +173,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                     });
             alertDialog.show();
-
         }
-        else if(v == buttonQuestion )
+        else if ( v == buttonTask)
         {
+            AlertDialog alert = new AlertDialog.Builder(this).create();
 
+            alert.setTitle("Task:");
+            alert.setMessage("0 task");
 
+            alert.setButton(AlertDialog.BUTTON_NEUTRAL,"Okay",
+                    new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+
+                    });
+            alert.show();
         }
+
 
     }
 
