@@ -1,5 +1,7 @@
 package com.mappers.campus101.models;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * @author Nur Ecem Dilek
  * @date 24.4.2016
@@ -45,6 +47,11 @@ public class Location implements Locatable
     private void updateLocation( double longitude, double latitude)
     {
         setLocation( longitude, latitude);
+    }
+
+    public LatLng getLocation()
+    {
+        return new LatLng( getLongitude(), getLatitude());
     }
 
     public String toString()

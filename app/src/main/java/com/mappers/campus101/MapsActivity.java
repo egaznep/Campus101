@@ -1,5 +1,7 @@
 package com.mappers.campus101;
 
+import com.mappers.campus101.models.Location;
+
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +24,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.mappers.campus101.http.VolleyManager;
+import com.mappers.campus101.models.Building;
 
 /*
  * Map activity
@@ -78,44 +81,59 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Setting the locations of the buildings of Bilkent
-        LatLng odeon = new LatLng(39.875425, 32.751971);
-        LatLng library = new LatLng(39.870344, 32.749576);
-        LatLng B_Building = new LatLng(39.868754, 32.748069);
-        LatLng G_Building = new LatLng(39.868684, 32.749662);
-        LatLng T_Building = new LatLng(39.868279, 32.749241);
-        LatLng SB_Building = new LatLng(39.868273, 32.748187);
-        LatLng SA_Building = new LatLng(39.867774, 32.748294);
-        LatLng AH_Buildings = new LatLng(39.867902, 32.749418);
-        LatLng M_Building = new LatLng(39.867514, 32.749425);
-        LatLng EB_Building = new LatLng(39.871197, 32.750064);
-        LatLng dinary = new LatLng(39.870598, 32.750541);
-        LatLng EE_Building = new LatLng(39.872082, 32.750721);
-        LatLng sportCenter = new LatLng(39.866629, 32.748454);
-        LatLng FF_Building = new LatLng(39.865929, 32.748818);
-        LatLng V_Building = new LatLng(39.867032, 32.749414);
+        com.mappers.campus101.models.Location loc_odeon = new com.mappers.campus101.models.Location(39.875425, 32.751971);
+        com.mappers.campus101.models.Location loc_library = new com.mappers.campus101.models.Location(39.870344, 32.749576);
+        com.mappers.campus101.models.Location loc_B_Building = new com.mappers.campus101.models.Location(39.868754, 32.748069);
+        com.mappers.campus101.models.Location loc_G_Building = new com.mappers.campus101.models.Location(39.868684, 32.749662);
+        com.mappers.campus101.models.Location loc_T_Building = new com.mappers.campus101.models.Location(39.868279, 32.749241);
+        com.mappers.campus101.models.Location loc_SB_Building = new com.mappers.campus101.models.Location(39.868273, 32.748187);
+        com.mappers.campus101.models.Location loc_SA_Building = new com.mappers.campus101.models.Location(39.867774, 32.748294);
+        com.mappers.campus101.models.Location loc_AH_Buildings = new com.mappers.campus101.models.Location(39.867902, 32.749418);
+        com.mappers.campus101.models.Location loc_M_Building = new com.mappers.campus101.models.Location(39.867514, 32.749425);
+        com.mappers.campus101.models.Location loc_EB_Building = new com.mappers.campus101.models.Location(39.871197, 32.750064);
+        com.mappers.campus101.models.Location loc_dinary = new com.mappers.campus101.models.Location(39.870598, 32.750541);
+        com.mappers.campus101.models.Location loc_EE_Building = new com.mappers.campus101.models.Location(39.872082, 32.750721);
+        com.mappers.campus101.models.Location loc_sportCenter = new com.mappers.campus101.models.Location(39.866629, 32.748454);
+        com.mappers.campus101.models.Location loc_FF_Building = new com.mappers.campus101.models.Location(39.865929, 32.748818);
+        com.mappers.campus101.models.Location loc_V_Building = new com.mappers.campus101.models.Location(39.867032, 32.749414);
+
+        // initializing buildings
+        Building odeon = new Building( 0, "Odeon", loc_odeon);
+        Building library = new Building( 14, "Library", loc_library);
+        Building B_Building = new Building(1, "B Building", loc_B_Building);
+        Building G_Building = new Building(2, "G Building", loc_G_Building);
+        Building T_Building = new Building(3, "T Building", loc_T_Building);
+        Building SB_Building = new Building(4, "SB Building", loc_SB_Building);
+        Building SA_Building = new Building(5, "SA Building", loc_SA_Building);
+        Building AH_Buildings = new Building(6, "AH Building", loc_AH_Buildings);
+        Building M_Building = new Building(7, "M Building", loc_M_Building);
+        Building EB_Building = new Building(8, "EB Building", loc_EB_Building);
+        Building dinary = new Building( 9, "Dinary", loc_dinary);
+        Building EE_Building = new Building(10, "EE Building", loc_EE_Building);
+        Building sportCenter = new Building(11, "Sport Center", loc_sportCenter);
+        Building FF_Building = new Building(12, "FF Building", loc_FF_Building);
+        Building V_Building = new Building(13, "V Building", loc_V_Building);
 
 
         //Adding Markers
-        mMap.addMarker(new MarkerOptions().position(odeon).title("ODEON"));
-        mMap.addMarker(new MarkerOptions().position(library).title("Kütüphane"));
-        mMap.addMarker(new MarkerOptions().position(B_Building).title("Hukuk Fakültesi"));
-        mMap.addMarker(new MarkerOptions().position(G_Building).title("G Binası"));
-        mMap.addMarker(new MarkerOptions().position(T_Building).title("T Binası"));
-        mMap.addMarker(new MarkerOptions().position(SB_Building).title("SB Binası"));
-        mMap.addMarker(new MarkerOptions().position(SA_Building).title("SA Binası"));
-        mMap.addMarker(new MarkerOptions().position(AH_Buildings).title("İnsani Bilimler Fakuültesi"));
-        mMap.addMarker(new MarkerOptions().position(M_Building).title("İktsat Binası"));
-        mMap.addMarker(new MarkerOptions().position(EB_Building).title("Mühendislik ve Rektörlük Binası"));
-        mMap.addMarker(new MarkerOptions().position(dinary).title("Yemekhane"));
-        mMap.addMarker(new MarkerOptions().position(EE_Building).title("Elektrik Elektronik Müh. Binası"));
-        mMap.addMarker(new MarkerOptions().position(sportCenter).title("Merkez Spor Salonu"));
-        mMap.addMarker(new MarkerOptions().position(FF_Building).title("Güzel Sanatlar Fakültesi"));
-        mMap.addMarker(new MarkerOptions().position(V_Building).title("İşletme Fakültesi"));
+        mMap.addMarker(new MarkerOptions().position(odeon.getLocation()).title("ODEON"));
+        mMap.addMarker(new MarkerOptions().position(library.getLocation()).title("Kütüphane"));
+        mMap.addMarker(new MarkerOptions().position(B_Building.getLocation()).title("Hukuk Fakültesi"));
+        mMap.addMarker(new MarkerOptions().position(G_Building.getLocation()).title("G Binası"));
+        mMap.addMarker(new MarkerOptions().position(T_Building.getLocation()).title("T Binası"));
+        mMap.addMarker(new MarkerOptions().position(SB_Building.getLocation()).title("SB Binası"));
+        mMap.addMarker(new MarkerOptions().position(SA_Building.getLocation()).title("SA Binası"));
+        mMap.addMarker(new MarkerOptions().position(AH_Buildings.getLocation()).title("İnsani Bilimler Fakuültesi"));
+        mMap.addMarker(new MarkerOptions().position(M_Building.getLocation()).title("İktsat Binası"));
+        mMap.addMarker(new MarkerOptions().position(EB_Building.getLocation()).title("Mühendislik ve Rektörlük Binası"));
+        mMap.addMarker(new MarkerOptions().position(dinary.getLocation()).title("Yemekhane"));
+        mMap.addMarker(new MarkerOptions().position(EE_Building.getLocation()).title("Elektrik Elektronik Müh. Binası"));
+        mMap.addMarker(new MarkerOptions().position(sportCenter.getLocation()).title("Merkez Spor Salonu"));
+        mMap.addMarker(new MarkerOptions().position(FF_Building.getLocation()).title("Güzel Sanatlar Fakültesi"));
+        mMap.addMarker(new MarkerOptions().position(V_Building.getLocation()).title("İşletme Fakültesi"));
 
 
-
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(odeon));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(odeon.getLocation()));
         mMap.moveCamera(CameraUpdateFactory.zoomTo(17));
         MarkerOptions mp = new MarkerOptions();
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -137,16 +155,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapManager.getTeamMembers(this);
     }
 
-
+/*
     @Override
-    public void onLocationChanged(Location location) {;
+    public void onLocationChanged(android.location.Location location) {;
         MarkerOptions mOpt = new MarkerOptions();
         mOpt.position(new LatLng(location.getLatitude(),location.getLongitude()));
         mOpt.title("Current Position");
         mMap.addMarker(mOpt);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng( location.getLatitude(), location.getLongitude() ),17));
-
+*/
     }
     @Override
     public void onClick(View v)

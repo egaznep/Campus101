@@ -1,4 +1,7 @@
 package com.mappers.campus101.models;
+
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * @author Nur Ecem Dilek
  * @date 24.4.2016
@@ -13,7 +16,7 @@ public class Building implements Locatable
     private int currentNumberOfStudents;
     private Location location;
 
-    // constructor
+    // constructors
     public Building( int buildingId, String name, int range, Location location, int capacity)
     {
         this.buildingId = buildingId;
@@ -21,6 +24,15 @@ public class Building implements Locatable
         this.range = range;
         this.location = location;
         this.capacity = capacity;
+        this.currentNumberOfStudents = 0;
+    }
+
+    public Building ( int buildingId, String name, Location location){
+        this.buildingId = buildingId;
+        this.name = name;
+        this.range = 0;
+        this.location = location;
+        this.capacity = 0;
         this.currentNumberOfStudents = 0;
     }
     /*
@@ -34,27 +46,25 @@ public class Building implements Locatable
     {
         this.name = name;
     }
-    
-    public void setRange( int range)
-    {
-        this.range = range;
-    }
-    
+
     public void setLocation( Location loc)
     {
         this.location = loc;
     }
-    
+    */
+    public void setRange( int range)
+    {
+        this.range = range;
+    }
+
     public void setCapacity( int cap)
     {
         this.capacity = cap;
     }
     
-    public void setCurrentNumberOfStudents( int no)
-    {
+    public void setCurrentNumberOfStudents( int no) {
         currentNumberOfStudents = no;
     }
-    */
 
     // getter methods
     public int getBuildingId()
@@ -70,11 +80,6 @@ public class Building implements Locatable
     public int getRange()
     {
         return range;
-    }
-
-    public Location getLocation()
-    {
-        return location;
     }
 
     public int getCapacity()
@@ -116,4 +121,6 @@ public class Building implements Locatable
     {
         return location.isAtLocation(loc);
     }
+
+    public LatLng getLocation() { return location.getLocation(); }
 }
