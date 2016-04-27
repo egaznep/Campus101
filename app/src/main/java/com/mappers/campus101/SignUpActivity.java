@@ -58,7 +58,7 @@ import com.mappers.campus101.models.Department;
 
             if(view == buttonRegister)
             {
-                signUpManager.sendSignUpRequest(String.valueOf(editTextstudentID.getText()) +  String.valueOf(editTextSurname.getText()),  editTextPassword.getText().toString(), editTextName.getText().toString(), "xx@hotmail.com",  department);
+                signUpManager.sendSignUpRequest((editTextstudentID.getText().toString()) ,(editTextPassword.getText()).toString(), (editTextName.getText()).toString() + (editTextSurname.getText()).toString(), "",  department);
                 Intent intent = new Intent( SignUpActivity.this, LoginActivity.class);
                 startActivity(intent);
             }

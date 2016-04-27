@@ -33,11 +33,16 @@ public class LoginActivity extends AppCompatActivity {
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
     }
+
     public void onClick(View v) {
         //Calling the login function
 
-        LoginManager.sendLoginRequest( String.valueOf(editTextstudentID.getText()), editTextPassword.getText().toString());
-        Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
-        startActivity(intent);
+        LoginManager.sendLoginRequest((editTextstudentID.getText()).toString(), editTextPassword.getText().toString());
+       // if (LoginManager.getLoggedIn()) {
+
+                Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
+                startActivity(intent);
+
+        }
     }
-}
+

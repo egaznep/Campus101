@@ -7,7 +7,21 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.mappers.campus101.MapsActivity;
+import com.mappers.campus101.R;
 import com.mappers.campus101.models.Student;
+
+import org.xml.sax.XMLReader;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 
 import static com.mappers.campus101.models.MD5Creator.createHash;
 
@@ -23,11 +37,14 @@ public class VolleyManager {
     private String mAddress;
     private boolean loggedIn;
     private Student currentStudent;
+    private String teamMembers;
 
     // Constructor sets the VolleySingleton object and address of the server
     public VolleyManager() {
         mVolleyInstance = VolleySingleton.getInstance();
         mAddress = "http://46.101.121.195";
+        currentStudent = new Student("21601111");
+        teamMembers = "";
     }
 
     // Adds a request to the requestqueue of Volley
@@ -208,19 +225,44 @@ public class VolleyManager {
     }
 
 
-    public String[] getTeamMembers ( final Activity activity) {
-        final String[] teamMembers = new String[1];
-        String requestAddress = mAddress + "/getTeamMembers.php" + "&id=" + currentStudent.getId();
+    public String getTeamMembers ( final Activity activity) {
+        String requestAddress = mAddress + "/getteammembers.php" + "?id=" + currentStudent.getId();
         Log.i ("TAG:", "Get Team Members");
         Log.i ("Address", requestAddress);
-        StringRequest request = new StringRequest(requestAddress,
+        final StringRequest request = new StringRequest(requestAddress,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        teamMembers = "";
                         Log.i ("Cevap:", response);
-                        teamMembers[0] = response;
+                        try {
+                            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                            factory.setNamespaceAware(true);
+                            XmlPullParser xpp = factory.newPullParser();
+                            xpp.setInput( new StringReader ( response ) );
+                            int eventType = xpp.getEventType();
+                            int counter = 0;
+                            while(eventType != XmlPullParser.END_DOCUMENT)
+                            {
+                                if (eventType == XmlPullParser.TEXT)
+                                {
+                                    teamMembers =  teamMembers + xpp.getText() +"               ";
+                                    if(counter %2 == 1)
+                                        teamMembers = teamMembers + "\n" ;
+                                    Log.i("TEAM", teamMembers);
+                                    counter++;
+                                }
+                                eventType = xpp.next();
+                            }
+                        } catch (XmlPullParserException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        {
+                    };
                     }
-                }, new Response.ErrorListener() {
+                    }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.i ("Hata", error.toString());

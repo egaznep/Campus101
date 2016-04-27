@@ -134,6 +134,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
         mMap.setMyLocationEnabled(true);
+        mapManager.getTeamMembers(this);
     }
 
 
@@ -159,12 +160,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         {
             relativeLayout.requestDisallowInterceptTouchEvent(true);
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            String teamMembersString = "";
-
-            //teamMembersString = mapManager.getTeamMembers(this)[0]; //To be implemented later
+            String teamMembersString ;
+            teamMembersString = "ID " + "                            " + "NAME" + "\n" + mapManager.getTeamMembers(this); //To be implemented later
 
             alertDialog.setTitle("Team Members");
-            alertDialog.setMessage("Hello word");           //Sample Team String
+            alertDialog.setMessage(teamMembersString);           //Sample Team String
 
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                     new DialogInterface.OnClickListener() {
