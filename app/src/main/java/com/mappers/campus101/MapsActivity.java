@@ -133,7 +133,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         {Manifest.permission.ACCESS_FINE_LOCATION},0);
             }
         }
-        mMap.setMyLocationEnabled(true);
+        mMap.setMyLocationEnabled(false);
         mapManager.getTeamMembers(this);
     }
 
@@ -160,6 +160,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         {
             relativeLayout.requestDisallowInterceptTouchEvent(true);
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+
             String teamMembersString ;
             teamMembersString = "ID " + "                            " + "NAME" + "\n" + mapManager.getTeamMembers(this); //To be implemented later
 

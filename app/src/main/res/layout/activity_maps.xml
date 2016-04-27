@@ -14,6 +14,24 @@
         tools:context="com.mappers.campus101.MapsActivity"
         tools:layout="@layout/activity_maps" />
 
+    <LinearLayout
+
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="right|top">
+
+        <Button
+            android:id="@+id/buttonLoc"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/oval"
+            android:text="Show Location"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+
 
     <RelativeLayout
         android:layout_width="172dp"
