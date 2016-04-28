@@ -22,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editTextPassword;
     private Button buttonLogin;
     private Activity activity;
+    private VolleyManager LoginManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,14 +32,14 @@ public class LoginActivity extends AppCompatActivity {
         editTextstudentID = (EditText) findViewById(R.id.editTextstudentID);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
-
+        LoginManager = App.getRequestManager();
         activity = this;
     }
 
     public void onClick(View v) {
         //Calling the login function
 
-        App.getRequestManager().sendLoginRequest((editTextstudentID.getText()).toString(), editTextPassword.getText().toString(), activity);
+        LoginManager.sendLoginRequest((editTextstudentID.getText()).toString(), editTextPassword.getText().toString(), activity);
     }
 }
 

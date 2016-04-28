@@ -65,7 +65,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         buttonTask.setOnClickListener(this);
         buttonTeam.setOnClickListener(this);
         buttonQR.setOnClickListener(this);
-        mapManager = new VolleyManager();
+        mapManager = App.getRequestManager();
 
 
     }

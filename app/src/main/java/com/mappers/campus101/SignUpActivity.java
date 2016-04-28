@@ -26,7 +26,7 @@ import com.mappers.campus101.models.Department;
         private EditText editTextSurname;
         private EditText editTextPassword;
         private Spinner spinnerDepartment;
-        private VolleyManager signUpManager = new VolleyManager();
+        private VolleyManager signUpManager;
         private String department;
         private Button buttonRegister;
         private Button buttonLogin;
@@ -43,6 +43,7 @@ import com.mappers.campus101.models.Department;
             editTextPassword = (EditText) findViewById(R.id.editTextPassword);
             spinnerDepartment = (Spinner) findViewById(R.id.spinnerDepartment);
 
+            signUpManager = App.getRequestManager();
             buttonRegister = (Button) findViewById(R.id.buttonRegister);
             buttonLogin = (Button) findViewById(R.id.buttonLogin1);
             buttonLogin.setOnClickListener(this);

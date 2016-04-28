@@ -38,14 +38,13 @@ public class VolleyManager {
     private VolleySingleton mVolleyInstance;
     private String mAddress;
     private boolean loggedIn;
-    private Student currentStudent;
+    private static Student currentStudent;
     private String teamMembers;
 
     // Constructor sets the VolleySingleton object and address of the server
     public VolleyManager() {
         mVolleyInstance = VolleySingleton.getInstance();
         mAddress = "http://46.101.121.195";
-        currentStudent = new Student("21601111");
         teamMembers = "";
     }
 
@@ -89,7 +88,6 @@ public class VolleyManager {
         // Add the request to the queue
         addRequest(signUpRequest);
 
-        currentStudent = new Student(id);
     }
 
     // Send a login request to the server
@@ -168,7 +166,7 @@ public class VolleyManager {
     // Sends a gettask request to server
     // When students finish a task and if they did not complete the turn
     // a gettask request will be sent to server to get a new task
-    public void sendGetTaskRequest (int id) {
+    public void sendGetTaskRequest (String id) {
         // Address for gettask request
         String getTaskRequestAddress = mAddress + "/gettask.php?" + "&id=" + id;
 
@@ -274,5 +272,10 @@ public class VolleyManager {
         });
         addRequest(request);
         return teamMembers;
+    }
+
+    public String getCurrentStudentID()
+    {
+        return currentStudent.getId();
     }
 }
