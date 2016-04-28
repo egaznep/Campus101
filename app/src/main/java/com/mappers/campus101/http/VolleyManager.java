@@ -1,12 +1,14 @@
 package com.mappers.campus101.http;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.mappers.campus101.LoginActivity;
 import com.mappers.campus101.MapsActivity;
 import com.mappers.campus101.R;
 import com.mappers.campus101.models.Student;
@@ -92,7 +94,7 @@ public class VolleyManager {
 
     // Send a login request to the server
     // Only id and hashed password is needed for this
-    public void sendLoginRequest(String id, String password) {
+    public void sendLoginRequest(String id, String password, final Activity activity) {
         String password_md5 = createHash(password);
 
         // Create the address for login request
@@ -105,7 +107,7 @@ public class VolleyManager {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // loggedIn(response, );
+                        loggedIn(response, activity);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -121,14 +123,16 @@ public class VolleyManager {
 
     // TO-DO : Implement later
     public void loggedIn (String response, Activity activity) {
-
+        Log.i ("Log", "Log");
         Log.i ("Logged in", response);
-        if (response.equals ("Success")) {
-
-            loggedIn = true;
+        response.replaceAll("\t", "");
+        if ( response.equals ("Success") ) {
+            Log.i ("True", "True");
+            Intent intent = new Intent(activity, MapsActivity.class);
+            activity.startActivity(intent);
         }
-
     }
+
     public boolean getLoggedIn()
     {
         return loggedIn;

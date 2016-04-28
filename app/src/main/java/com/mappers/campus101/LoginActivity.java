@@ -1,5 +1,6 @@
 package com.mappers.campus101;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,9 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editTextstudentID;
     private EditText editTextPassword;
     private Button buttonLogin;
-
-
-    private VolleyManager LoginManager = new VolleyManager();
+    private Activity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,17 +31,14 @@ public class LoginActivity extends AppCompatActivity {
         editTextstudentID = (EditText) findViewById(R.id.editTextstudentID);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
+
+        activity = this;
     }
 
     public void onClick(View v) {
         //Calling the login function
 
-        LoginManager.sendLoginRequest((editTextstudentID.getText()).toString(), editTextPassword.getText().toString());
-       // if (LoginManager.getLoggedIn()) {
-
-                Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
-                startActivity(intent);
-
-        }
+        App.getRequestManager().sendLoginRequest((editTextstudentID.getText()).toString(), editTextPassword.getText().toString(), activity);
     }
+}
 
