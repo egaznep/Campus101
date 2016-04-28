@@ -206,19 +206,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         else if ( v == buttonTask)
         {
-            AlertDialog alert = new AlertDialog.Builder(this).create();
-
-            alert.setTitle("Task:");
-            alert.setMessage("0 task");
-
-            alert.setButton(AlertDialog.BUTTON_NEUTRAL,"Okay",
-                    new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-
-                    });
-            alert.show();
+            mapManager.sendTaskRequest(mapManager.getCurrentStudentID(), this);
         }
 
 

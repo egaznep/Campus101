@@ -1,13 +1,16 @@
 package com.mappers.campus101.http;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.mappers.campus101.App;
 import com.mappers.campus101.LoginActivity;
 import com.mappers.campus101.MapsActivity;
 import com.mappers.campus101.R;
@@ -40,6 +43,7 @@ public class VolleyManager {
     private boolean loggedIn;
     private static Student currentStudent;
     private String teamMembers;
+    private String task;
 
     // Constructor sets the VolleySingleton object and address of the server
     public VolleyManager() {
@@ -128,6 +132,7 @@ public class VolleyManager {
             Log.i ("True", "True");
             Intent intent = new Intent(activity, MapsActivity.class);
             activity.startActivity(intent);
+            App.getRequestManager().sendGetTaskRequest(App.getRequestManager().getCurrentStudentID());
         }
     }
 
@@ -176,7 +181,7 @@ public class VolleyManager {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        processTask (response);
+                        Log.i("response", response);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -188,27 +193,64 @@ public class VolleyManager {
         // Add the request to queue
         addRequest(getTaskRequest);
     }
+    public String sendTaskRequest (String id, final Activity activity) {
+        // Address for gettask request
+        String getTaskRequestAddress = mAddress + "/getcurrenttask.php?" + "id=" + id;
+
+        // Create the request with address and response listener
+        StringRequest getTaskRequest = new StringRequest(Request.Method.GET,
+                getTaskRequestAddress,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        task = response;
+                        processTask(response, activity);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        // Add the request to queue
+        addRequest(getTaskRequest);
+        return task;
+    }
 
     // TO-DO : Implement later
-    public boolean processTask (String response) {
-        return true;
+    public void processTask(String response, Activity activity) {
+        AlertDialog alert = new AlertDialog.Builder(activity).create();
+
+        alert.setTitle("Task:");
+        alert.setMessage(response);
+
+        alert.setButton(AlertDialog.BUTTON_NEUTRAL,"Okay",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+
+                });
+        alert.show();
     }
 
     // Send a finishtask request to server
     // When a student reads a qr code, a finishtask request will be sent to server
     // to understand whether the student went to the correct place or not
-    public void sendFinishTaskRequest (int id, String QRString) {
+    public void sendFinishTaskRequest (String id, String QRString, final Activity activity) {
         // Address for finishtask request
         String finishTaskRequestAddress = mAddress + "/finishtask.php?" + "&id=" + id + "&qrstring="
                 + QRString;
 
         // Create the request with address and response listener
-        StringRequest getTaskRequest = new StringRequest(Request.Method.GET,
+        StringRequest getFinishTaskRequest = new StringRequest(Request.Method.GET,
                 finishTaskRequestAddress,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        finishTaskResponse(response);
+                        Log.i("Response", response);
+                        finishTaskResponse(response, activity);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -218,12 +260,29 @@ public class VolleyManager {
         });
 
         // Add the request to queue
-        addRequest(getTaskRequest);
+        addRequest(getFinishTaskRequest);
     }
 
     // TO-DO : Implement later
-    public void finishTaskResponse(String response) {
+    public void finishTaskResponse(String response, final Activity activity)
+    {
+        AlertDialog alert = new AlertDialog.Builder(activity).create();
+        alert.setTitle("Task:");
 
+        if(response.equals("Updated.")) {
+            alert.setMessage("Task is completed successfully.");
+        } else {
+            alert.setMessage("Task is not completed.");
+        }
+        alert.setButton(AlertDialog.BUTTON_NEUTRAL, "Okay",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        activity.finish();
+                    }
+
+                });
+        alert.show();
     }
 
 
