@@ -3,6 +3,7 @@ package com.mappers.campus101.http;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
@@ -15,6 +16,7 @@ import com.mappers.campus101.LoginActivity;
 import com.mappers.campus101.MapsActivity;
 import com.mappers.campus101.R;
 import com.mappers.campus101.models.Student;
+import com.mappers.campus101.models.Team;
 
 import org.xml.sax.XMLReader;
 import org.xmlpull.v1.XmlPullParser;
@@ -27,6 +29,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.mappers.campus101.models.MD5Creator.createHash;
 
@@ -44,13 +48,17 @@ public class VolleyManager {
     private static Student currentStudent;
     private String teamMembers;
     private String task;
+    private CountDownTimer teamTimer;
+    private static Team team;
 
     // Constructor sets the VolleySingleton object and address of the server
     public VolleyManager() {
         mVolleyInstance = VolleySingleton.getInstance();
         mAddress = "http://46.101.121.195";
         teamMembers = "";
-    }
+        team = null;
+        }
+
 
     // Adds a request to the requestqueue of Volley
     public void addRequest(Request request) {
@@ -60,18 +68,13 @@ public class VolleyManager {
     // Sends a sign-up request to the server
     // Sends the password hashed as md5
     public void sendSignUpRequest(String id, String password, String name, String email, String department) {
-        Log.i ("Info", "Signup request");
         // Hash the password with md5
         String password_md5 = createHash(password);
-
-        Log.i ("Hashed", password_md5);
 
         // Create full address for the request
         // Since php code uses get requests, send the parameters to php code directly
         String signUpRequestAddress = mAddress + "/signup.php?password_md5=" + password_md5 + "&id="
                 + id + "&name=" + name + "&email=" + email + "&department=" + department;
-
-        Log.i ("Address", signUpRequestAddress);
 
         // Create the request with the address and response listener
         // Since volley is working asynchronous, a new method has to be called
@@ -125,11 +128,9 @@ public class VolleyManager {
 
     // TO-DO : Implement later
     public void loggedIn (String response, Activity activity) {
-        Log.i ("Log", "Log");
         Log.i ("Logged in", response);
         response.replaceAll("\t", "");
         if ( response.equals ("Success") ) {
-            Log.i ("True", "True");
             Intent intent = new Intent(activity, MapsActivity.class);
             activity.startActivity(intent);
             App.getRequestManager().sendGetTaskRequest(App.getRequestManager().getCurrentStudentID());
@@ -146,16 +147,17 @@ public class VolleyManager {
     // When students need a group, for example they finish the solitary task
     // or they finish all the necessary tasks with their already assigned
     // group and they want to play again, an addqueue request will be sent to server
-    public void sendAddQueueRequest(int id) {
+    public void sendAddQueueRequest(String id, String location) {
         // Address for addqueue request
-        String addQueueRequestAddress = mAddress + "/addqueue.php?" + "&id=" + id;
+        String addQueueRequestAddress = mAddress + "/addqueue.php?" + "&id=" + id + "&placeid="
+                + location;
 
         // Create the request with the address and response listener
         StringRequest addQueueRequest = new StringRequest(addQueueRequestAddress,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        Log.i ("Add Queue", response);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -173,7 +175,7 @@ public class VolleyManager {
     // a gettask request will be sent to server to get a new task
     public void sendGetTaskRequest (String id) {
         // Address for gettask request
-        String getTaskRequestAddress = mAddress + "/gettask.php?" + "&id=" + id;
+        String getTaskRequestAddress = mAddress + "/gettask.php?" + "id=" + id + "&placeid" + currentStudent.getCurrentTask();
 
         // Create the request with address and response listener
         StringRequest getTaskRequest = new StringRequest(Request.Method.GET,
@@ -181,7 +183,7 @@ public class VolleyManager {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.i("response", response);
+                        Log.i("Get Task", response);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -193,6 +195,7 @@ public class VolleyManager {
         // Add the request to queue
         addRequest(getTaskRequest);
     }
+
     public String sendTaskRequest (String id, final Activity activity) {
         // Address for gettask request
         String getTaskRequestAddress = mAddress + "/getcurrenttask.php?" + "id=" + id;
@@ -221,9 +224,11 @@ public class VolleyManager {
     // TO-DO : Implement later
     public void processTask(String response, Activity activity) {
         AlertDialog alert = new AlertDialog.Builder(activity).create();
-
+        Log.i ("Process Task", response);
+        if(response.indexOf("-")>0)
+            currentStudent.setTask(response.substring(0,response.indexOf("-")));
         alert.setTitle("Task:");
-        alert.setMessage(response);
+        alert.setMessage(response.substring(response.indexOf("-") + 1));
 
         alert.setButton(AlertDialog.BUTTON_NEUTRAL,"Okay",
                 new DialogInterface.OnClickListener() {
@@ -249,7 +254,7 @@ public class VolleyManager {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.i("Response", response);
+                        Log.i("Finish Task", response);
                         finishTaskResponse(response, activity);
                     }
                 }, new Response.ErrorListener() {
@@ -271,6 +276,52 @@ public class VolleyManager {
 
         if(response.equals("Updated.")) {
             alert.setMessage("Task is completed successfully.");
+            Log.i ("Team", Boolean.toString(team == null));
+            teamTimer = new CountDownTimer(300000, 15000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    Log.i("Timer", "Timer");
+                    String requestAddress = mAddress + "/trygenerating.php" + "?placeid=" + currentStudent.getCurrentTask();
+                    StringRequest generateTeamRequest = new StringRequest(requestAddress,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    Log.i("Generate", response);
+                                    if ( response.equals("Created.") ) {
+                                        team = new Team();
+                                        String members = getTeamMembers();
+                                        Log.i ("Members", members);
+                                        teamTimer.cancel();
+
+                                        while ( members.indexOf("2") > 0 ) {
+                                            Student student = new Student(members.substring(0, 8));
+                                            members = members.substring(8);
+                                            members = members.substring(members.indexOf("2"));
+                                            team.addStudent(student);
+                                        }
+
+                                        Log.i ("Team", Boolean.toString(team == null));
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                        }
+                    });
+
+                    addRequest(generateTeamRequest);
+                }
+
+                @Override
+                public void onFinish() {
+
+                }
+            };
+            if ( team == null ) {
+                sendAddQueueRequest(currentStudent.getId(), currentStudent.getCurrentTask());
+                teamTimer.start();
+            }
         } else {
             alert.setMessage("Task is not completed.");
         }
@@ -286,7 +337,7 @@ public class VolleyManager {
     }
 
 
-    public String getTeamMembers ( final Activity activity) {
+    public String getTeamMembers () {
         String requestAddress = mAddress + "/getteammembers.php" + "?id=" + currentStudent.getId();
         Log.i ("TAG:", "Get Team Members");
         Log.i ("Address", requestAddress);
@@ -295,7 +346,7 @@ public class VolleyManager {
                     @Override
                     public void onResponse(String response) {
                         teamMembers = "";
-                        Log.i ("Cevap:", response);
+                        Log.i ("Get Team Members", response);
                         try {
                             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                             factory.setNamespaceAware(true);
@@ -326,7 +377,7 @@ public class VolleyManager {
                     }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i ("Hata", error.toString());
+                Log.i ("Error", error.toString());
             }
         });
         addRequest(request);

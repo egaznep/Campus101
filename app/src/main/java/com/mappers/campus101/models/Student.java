@@ -16,6 +16,7 @@ public class Student implements Locatable{
     private String name;
     private String surname;
     private String password;
+    private String currentTaskID;
     private Department department;
     private ArrayList<Task> tasks;
     private Location location;
@@ -87,4 +88,14 @@ public class Student implements Locatable{
     }
 
     public LatLng getLocation() { return location.getLocation(); }
+
+    public void setTask(String taskID)
+    {
+        currentTaskID = taskID;
+    }
+
+    public String getCurrentTask()
+    {
+        return currentTaskID;
+    }
 }

@@ -149,7 +149,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Decisions about basic functions of the map
 
-        mapManager.getTeamMembers(this);
+        mapManager.getTeamMembers();
         mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.getUiSettings().setZoomControlsEnabled(true);
     }
@@ -191,7 +191,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 
             String teamMembersString ;
-            teamMembersString = "ID " + "                            " + "NAME" + "\n" + mapManager.getTeamMembers(this); //To be implemented later
+            teamMembersString = "ID " + "                            " + "NAME" + "\n" + mapManager.getTeamMembers(); //To be implemented later
 
             alertDialog.setTitle("Team Members");
             alertDialog.setMessage(teamMembersString);           //Sample Team String
