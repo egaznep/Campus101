@@ -1,16 +1,9 @@
 package com.mappers.campus101;
 
-import com.mappers.campus101.models.Location;
-
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +18,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.mappers.campus101.http.VolleyManager;
 import com.mappers.campus101.models.Building;
+import com.mappers.campus101.models.Location;
+
+//import android.location.Location;
 
 /*
  * Map activity
@@ -42,6 +38,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button buttonTask;
     private Button buttonTeam;
     private VolleyManager mapManager;
+    /*String[] PermissionLocation = {
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };*/
+
+    //final int requestLocationId = 0 ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         buttonQR.setOnClickListener(this);
         mapManager = new VolleyManager();
 
+
     }
 
 
@@ -81,21 +85,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Setting the locations of the buildings of Bilkent
-        com.mappers.campus101.models.Location loc_odeon = new com.mappers.campus101.models.Location(39.875425, 32.751971);
-        com.mappers.campus101.models.Location loc_library = new com.mappers.campus101.models.Location(39.870344, 32.749576);
-        com.mappers.campus101.models.Location loc_B_Building = new com.mappers.campus101.models.Location(39.868754, 32.748069);
-        com.mappers.campus101.models.Location loc_G_Building = new com.mappers.campus101.models.Location(39.868684, 32.749662);
-        com.mappers.campus101.models.Location loc_T_Building = new com.mappers.campus101.models.Location(39.868279, 32.749241);
-        com.mappers.campus101.models.Location loc_SB_Building = new com.mappers.campus101.models.Location(39.868273, 32.748187);
-        com.mappers.campus101.models.Location loc_SA_Building = new com.mappers.campus101.models.Location(39.867774, 32.748294);
-        com.mappers.campus101.models.Location loc_AH_Buildings = new com.mappers.campus101.models.Location(39.867902, 32.749418);
-        com.mappers.campus101.models.Location loc_M_Building = new com.mappers.campus101.models.Location(39.867514, 32.749425);
-        com.mappers.campus101.models.Location loc_EB_Building = new com.mappers.campus101.models.Location(39.871197, 32.750064);
-        com.mappers.campus101.models.Location loc_dinary = new com.mappers.campus101.models.Location(39.870598, 32.750541);
-        com.mappers.campus101.models.Location loc_EE_Building = new com.mappers.campus101.models.Location(39.872082, 32.750721);
-        com.mappers.campus101.models.Location loc_sportCenter = new com.mappers.campus101.models.Location(39.866629, 32.748454);
-        com.mappers.campus101.models.Location loc_FF_Building = new com.mappers.campus101.models.Location(39.865929, 32.748818);
-        com.mappers.campus101.models.Location loc_V_Building = new com.mappers.campus101.models.Location(39.867032, 32.749414);
+        Location loc_odeon = new com.mappers.campus101.models.Location(39.875425, 32.751971);
+        Location loc_library = new com.mappers.campus101.models.Location(39.870344, 32.749576);
+        Location loc_B_Building = new com.mappers.campus101.models.Location(39.868754, 32.748069);
+        Location loc_G_Building = new com.mappers.campus101.models.Location(39.868684, 32.749662);
+        Location loc_T_Building = new com.mappers.campus101.models.Location(39.868279, 32.749241);
+        Location loc_SB_Building = new com.mappers.campus101.models.Location(39.868273, 32.748187);
+        Location loc_SA_Building = new com.mappers.campus101.models.Location(39.867774, 32.748294);
+        Location loc_AH_Buildings = new com.mappers.campus101.models.Location(39.867902, 32.749418);
+        Location loc_M_Building = new com.mappers.campus101.models.Location(39.867514, 32.749425);
+        Location loc_EB_Building = new com.mappers.campus101.models.Location(39.871197, 32.750064);
+        Location loc_dinary = new com.mappers.campus101.models.Location(39.870598, 32.750541);
+        Location loc_EE_Building = new com.mappers.campus101.models.Location(39.872082, 32.750721);
+        Location loc_sportCenter = new com.mappers.campus101.models.Location(39.866629, 32.748454);
+        Location loc_FF_Building = new com.mappers.campus101.models.Location(39.865929, 32.748818);
+        Location loc_V_Building = new com.mappers.campus101.models.Location(39.867032, 32.749414);
 
         // initializing buildings
         Building odeon = new Building( 0, "Odeon", loc_odeon);
@@ -120,7 +124,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(library.getLocation()).title("Kütüphane"));
         mMap.addMarker(new MarkerOptions().position(B_Building.getLocation()).title("Hukuk Fakültesi"));
         mMap.addMarker(new MarkerOptions().position(G_Building.getLocation()).title("G Binası"));
-        mMap.addMarker(new MarkerOptions().position(T_Building.getLocation()).title("T Binası"));
+        mMap.addMarker( new MarkerOptions().position(T_Building.getLocation()).title("T Binası"));
         mMap.addMarker(new MarkerOptions().position(SB_Building.getLocation()).title("SB Binası"));
         mMap.addMarker(new MarkerOptions().position(SA_Building.getLocation()).title("SA Binası"));
         mMap.addMarker(new MarkerOptions().position(AH_Buildings.getLocation()).title("İnsani Bilimler Fakuültesi"));
@@ -137,25 +141,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.zoomTo(17));
         MarkerOptions mp = new MarkerOptions();
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
-        //mMap.setPadding(0,150,0,0);
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
-        if(ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)){
 
-            }
-            else{
-                ActivityCompat.requestPermissions(this, new String[]
-                        {Manifest.permission.ACCESS_FINE_LOCATION},0);
-            }
-        }
-        mMap.setMyLocationEnabled(false);
+
+
+
+        //Decisions about basic functions of the map
+
         mapManager.getTeamMembers(this);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
     }
 
-/*
+
+    /*public Task getLocationPermission()
+    {
+        String permission = Manifest.permission.ACCESS_FINE_LOCATION;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(checkSelfPermission(permission) == (int) PackageManager.PERMISSION_GRANTED )
+            {
+                mMap.setMyLocationEnabled(true);
+            }
+        }
+    }*/
+
     @Override
     public void onLocationChanged(android.location.Location location) {;
         MarkerOptions mOpt = new MarkerOptions();
@@ -164,8 +174,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(mOpt);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                 new LatLng( location.getLatitude(), location.getLongitude() ),17));
-*/
+
     }
+
     @Override
     public void onClick(View v)
     {

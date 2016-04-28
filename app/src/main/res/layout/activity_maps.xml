@@ -26,8 +26,8 @@
             android:layout_height="50dp"
             android:layout_alignParentTop="true"
             android:background="@drawable/oval"
-            android:text="Show Location"
-            android:textSize="10sp" />
+            android:text="ME"
+            android:textSize="12sp" />
 
     </LinearLayout>
 

@@ -1,5 +1,7 @@
 package com.mappers.campus101.models;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 
 /**
@@ -83,4 +85,6 @@ public class Student implements Locatable{
     public boolean isAtLocation(Location loc) {
         return location.isAtLocation( loc);
     }
+
+    public LatLng getLocation() { return location.getLocation(); }
 }
