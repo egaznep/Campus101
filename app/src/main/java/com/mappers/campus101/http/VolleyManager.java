@@ -150,8 +150,8 @@ public class VolleyManager {
     public void sendAddQueueRequest(String id, String location) {
         // Address for addqueue request
         String addQueueRequestAddress = mAddress + "/addqueue.php?" + "&id=" + id + "&placeid="
-                + location;
-
+                + currentStudent.getCurrentTask();
+        Log.i ("Add Queue", addQueueRequestAddress);
         // Create the request with the address and response listener
         StringRequest addQueueRequest = new StringRequest(addQueueRequestAddress,
                 new Response.Listener<String>() {
@@ -245,8 +245,10 @@ public class VolleyManager {
     // to understand whether the student went to the correct place or not
     public void sendFinishTaskRequest (String id, String QRString, final Activity activity) {
         // Address for finishtask request
-        String finishTaskRequestAddress = mAddress + "/finishtask.php?" + "&id=" + id + "&qrstring="
+        String finishTaskRequestAddress = mAddress + "/finishtask.php?" + "id=" + id + "&qrstring="
                 + QRString;
+
+        Log.i ("Finish Task Address", finishTaskRequestAddress);
 
         // Create the request with address and response listener
         StringRequest getFinishTaskRequest = new StringRequest(Request.Method.GET,
@@ -277,16 +279,20 @@ public class VolleyManager {
         if(response.equals("Updated.")) {
             alert.setMessage("Task is completed successfully.");
             Log.i ("Team", Boolean.toString(team == null));
+
             teamTimer = new CountDownTimer(300000, 15000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     Log.i("Timer", "Timer");
-                    String requestAddress = mAddress + "/trygenerating.php" + "?placeid=" + currentStudent.getCurrentTask();
+                    String requestAddress = mAddress + "/trygenerating.php" + "?placeid="
+                            + currentStudent.getCurrentTask();
+
                     StringRequest generateTeamRequest = new StringRequest(requestAddress,
                             new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
                                     Log.i("Generate", response);
+                                    Log.i("Did generate", Boolean.toString(response.equals("Created.")));
                                     if ( response.equals("Created.") ) {
                                         team = new Team();
                                         String members = getTeamMembers();
@@ -315,7 +321,21 @@ public class VolleyManager {
 
                 @Override
                 public void onFinish() {
+                    String enforceQueueAddress = mAddress + "/enforcequeue.php" + "?currentplace="
+                            + currentStudent.getCurrentTask() + "&id" + currentStudent.getId();
 
+                    StringRequest enforceQueue = new StringRequest(enforceQueueAddress,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    Log.i ("Enforce Queue", response);
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                        }
+                    });
                 }
             };
             if ( team == null ) {

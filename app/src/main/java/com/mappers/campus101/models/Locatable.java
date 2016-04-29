@@ -13,7 +13,4 @@ public interface Locatable
     double getLatitude();
     boolean isAtLocation( Location loc);
     LatLng getLocation();
-
-
-
 }
