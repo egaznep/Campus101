@@ -1,15 +1,22 @@
 package com.mappers.campus101;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -29,7 +36,8 @@ import com.mappers.campus101.models.Location;
  * TODO: Show user's location, Handle the Task Button
  */
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, View.OnClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, View.OnClickListener,
+        GoogleMap.OnMyLocationButtonClickListener, ActivityCompat.OnRequestPermissionsResultCallback{
 
     private GoogleMap mMap;
     private FrameLayout frameLayout;
@@ -38,12 +46,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button buttonTask;
     private Button buttonTeam;
     private VolleyManager mapManager;
-    /*String[] PermissionLocation = {
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
-    };*/
+    private LocationManager locManager ;
+    private android.location.Location location ;
 
-    //final int requestLocationId = 0 ;
+    //For my Location Button
+    private  static final int LOCATION_PERMISSION_REQUEST_CODE = 1 ;
+    private boolean mPermissionDenied = false ;
+
 
 
     @Override
@@ -57,10 +66,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         frameLayout = new FrameLayout(this);
         relativeLayout = new MyRelativeLayout(this);
 
-
         buttonQR = (Button) findViewById(R.id.buttonQR);
         buttonTask = (Button) findViewById(R.id.buttonTask);
         buttonTeam = (Button) findViewById(R.id.buttonTeam);
+
 
         buttonTask.setOnClickListener(this);
         buttonTeam.setOnClickListener(this);
@@ -70,6 +79,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
+    private void getMyLocation()
+    {
+        LatLng latLng = new LatLng((location.getLatitude()), location.getLongitude());
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 18);
+        mMap.animateCamera(cameraUpdate);
+    }
 
     /**
      * Manipulates the map once available.
@@ -120,29 +135,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         //Adding Markers
-        mMap.addMarker(new MarkerOptions().position(odeon.getLocation()).title("ODEON"));
-        mMap.addMarker(new MarkerOptions().position(library.getLocation()).title("Kütüphane"));
-        mMap.addMarker(new MarkerOptions().position(B_Building.getLocation()).title("Hukuk Fakültesi"));
-        mMap.addMarker(new MarkerOptions().position(G_Building.getLocation()).title("G Binası"));
-        mMap.addMarker( new MarkerOptions().position(T_Building.getLocation()).title("T Binası"));
-        mMap.addMarker(new MarkerOptions().position(SB_Building.getLocation()).title("SB Binası"));
-        mMap.addMarker(new MarkerOptions().position(SA_Building.getLocation()).title("SA Binası"));
-        mMap.addMarker(new MarkerOptions().position(AH_Buildings.getLocation()).title("İnsani Bilimler Fakuültesi"));
-        mMap.addMarker(new MarkerOptions().position(M_Building.getLocation()).title("İktsat Binası"));
-        mMap.addMarker(new MarkerOptions().position(EB_Building.getLocation()).title("Mühendislik ve Rektörlük Binası"));
-        mMap.addMarker(new MarkerOptions().position(dinary.getLocation()).title("Yemekhane"));
-        mMap.addMarker(new MarkerOptions().position(EE_Building.getLocation()).title("Elektrik Elektronik Müh. Binası"));
-        mMap.addMarker(new MarkerOptions().position(sportCenter.getLocation()).title("Merkez Spor Salonu"));
-        mMap.addMarker(new MarkerOptions().position(FF_Building.getLocation()).title("Güzel Sanatlar Fakültesi"));
-        mMap.addMarker(new MarkerOptions().position(V_Building.getLocation()).title("İşletme Fakültesi"));
+        mMap.addMarker( new MarkerOptions().position( odeon.getLocation()).title( "ODEON"));
+        mMap.addMarker( new MarkerOptions().position( library.getLocation()).title( "Kütüphane"));
+        mMap.addMarker( new MarkerOptions().position( B_Building.getLocation()).title( "Hukuk Fakültesi"));
+        mMap.addMarker( new MarkerOptions().position( G_Building.getLocation()).title( "G Binası"));
+        mMap.addMarker( new MarkerOptions().position( T_Building.getLocation()).title( "T Binası"));
+        mMap.addMarker( new MarkerOptions().position( SB_Building.getLocation()).title( "SB Binası"));
+        mMap.addMarker( new MarkerOptions().position( SA_Building.getLocation()).title( "SA Binası"));
+        mMap.addMarker( new MarkerOptions().position( AH_Buildings.getLocation()).title( "İnsani Bilimler Fakuültesi"));
+        mMap.addMarker( new MarkerOptions().position( M_Building.getLocation()).title( "İktsat Binası"));
+        mMap.addMarker( new MarkerOptions().position( EB_Building.getLocation()).title( "Mühendislik ve Rektörlük Binası"));
+        mMap.addMarker( new MarkerOptions().position( dinary.getLocation()).title( "Yemekhane"));
+        mMap.addMarker( new MarkerOptions().position( EE_Building.getLocation()).title( "Elektrik Elektronik Müh. Binası"));
+        mMap.addMarker( new MarkerOptions().position( sportCenter.getLocation()).title( "Merkez Spor Salonu"));
+        mMap.addMarker( new MarkerOptions().position( FF_Building.getLocation()).title( "Güzel Sanatlar Fakültesi"));
+        mMap.addMarker( new MarkerOptions().position( V_Building.getLocation()).title( "İşletme Fakültesi"));
 
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(odeon.getLocation()));
         mMap.moveCamera(CameraUpdateFactory.zoomTo(17));
         MarkerOptions mp = new MarkerOptions();
-        mMap.getUiSettings().setMyLocationButtonEnabled(true);
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.setOnMyLocationButtonClickListener(this);
+        enableMyLocation();
 
 
 
@@ -155,16 +170,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    /*public Task getLocationPermission()
-    {
-        String permission = Manifest.permission.ACCESS_FINE_LOCATION;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if(checkSelfPermission(permission) == (int) PackageManager.PERMISSION_GRANTED )
-            {
-                mMap.setMyLocationEnabled(true);
-            }
+    private void enableMyLocation() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission to access the location is missing.
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
         }
-    }*/
+        else if (mMap != null){
+                mMap.setMyLocationEnabled(true);
+        }
+
+        }
+
+    public boolean onMyLocationButtonClick() {
+        return false;
+    }
+
+    public void onRequesPermissionResult(int requestCode, @NonNull String[] permissions,
+                                         @NonNull int[] grantResults){
+        if(requestCode != LOCATION_PERMISSION_REQUEST_CODE){
+            return ;
+        }
+    }
+
+    protected void onResumeFragments(){
+        super.onResumeFragments();
+        if(mPermissionDenied){
+            showMissingPermissionError();
+            mPermissionDenied = false ;
+        }
+    }
+
+    private void showMissingPermissionError() {
+        return ;
+    }
+
+
+
 
     @Override
     public void onLocationChanged(android.location.Location location) {;
