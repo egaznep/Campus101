@@ -98,4 +98,8 @@ public class Student implements Locatable{
     {
         return currentTaskID;
     }
+
+    public String toString(){
+        return "ID: " + id + "  Name: " + name + "  Surname: " + surname + "  Department: " + department;
+    }
 }

@@ -20,4 +20,14 @@ public class Team {
     public void addStudent(Student student) {
         students.add (student);
     }
+
+    public String toString(){
+        int count = 0;
+        String list = "";
+        while(students.get(count) != null) {
+            list = list + "\n" + students.get(count);
+            count++;
+        }
+        return list;
+    }
 }
