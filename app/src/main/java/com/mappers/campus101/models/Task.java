@@ -25,6 +25,6 @@ public class Task {
     }
 
     public String toString() {
-        return "description" + description;
+        return "description of task: " + description;
     }
 }
