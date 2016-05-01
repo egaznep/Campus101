@@ -91,21 +91,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Setting the locations of the buildings of Bilkent
-        Location loc_odeon = new com.mappers.campus101.models.Location(39.875425, 32.751971);
-        Location loc_library = new com.mappers.campus101.models.Location(39.870344, 32.749576);
-        Location loc_B_Building = new com.mappers.campus101.models.Location(39.868754, 32.748069);
-        Location loc_G_Building = new com.mappers.campus101.models.Location(39.868684, 32.749662);
-        Location loc_T_Building = new com.mappers.campus101.models.Location(39.868279, 32.749241);
-        Location loc_SB_Building = new com.mappers.campus101.models.Location(39.868273, 32.748187);
-        Location loc_SA_Building = new com.mappers.campus101.models.Location(39.867774, 32.748294);
-        Location loc_AH_Buildings = new com.mappers.campus101.models.Location(39.867902, 32.749418);
-        Location loc_M_Building = new com.mappers.campus101.models.Location(39.867514, 32.749425);
-        Location loc_EB_Building = new com.mappers.campus101.models.Location(39.871197, 32.750064);
-        Location loc_dinary = new com.mappers.campus101.models.Location(39.870598, 32.750541);
-        Location loc_EE_Building = new com.mappers.campus101.models.Location(39.872082, 32.750721);
-        Location loc_sportCenter = new com.mappers.campus101.models.Location(39.866629, 32.748454);
-        Location loc_FF_Building = new com.mappers.campus101.models.Location(39.865929, 32.748818);
-        Location loc_V_Building = new com.mappers.campus101.models.Location(39.867032, 32.749414);
+        Location loc_odeon = new Location(39.875425, 32.751971);
+        Location loc_library = new Location(39.870344, 32.749576);
+        Location loc_B_Building = new Location(39.868754, 32.748069);
+        Location loc_G_Building = new Location(39.868684, 32.749662);
+        Location loc_T_Building = new Location(39.868279, 32.749241);
+        Location loc_SB_Building = new Location(39.868273, 32.748187);
+        Location loc_SA_Building = new Location(39.867774, 32.748294);
+        Location loc_AH_Buildings = new Location(39.867902, 32.749418);
+        Location loc_M_Building = new Location(39.867514, 32.749425);
+        Location loc_EB_Building = new Location(39.871197, 32.750064);
+        Location loc_dinary = new Location(39.870598, 32.750541);
+        Location loc_EE_Building = new Location(39.872082, 32.750721);
+        Location loc_sportCenter = new Location(39.866629, 32.748454);
+        Location loc_FF_Building = new Location(39.865929, 32.748818);
+        Location loc_V_Building = new Location(39.867032, 32.749414);
+        Location loc_MayFest = new Location(39.868166, 32.751361);
+        Location loc_Dorm76_Field = new Location(39.864872, 32.747584);
+        Location loc_StudentAffairs = new Location(39.864239, 32.744828);
+        Location loc_MPA = new Location(39.869270, 32.755026);
+        Location loc_Meteksan = new Location(39.872519, 32.751412);
+        Location loc_Statue = new Location(39.869323, 32.748792);
+        Location loc_DormSportsCenter = new Location(39.863878, 32.745599);
 
         // Initializing buildings
         Building odeon = new Building( 0, "Odeon", loc_odeon);
@@ -123,6 +130,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Building sportCenter = new Building(11, "Sport Center", loc_sportCenter);
         Building FF_Building = new Building(12, "FF Building", loc_FF_Building);
         Building V_Building = new Building(13, "V Building", loc_V_Building);
+        Building mayFest = new Building(15, "MayFest Area", loc_MayFest);
+        Building dorm76_Field = new Building(16, "Dormatory 76 Grass Area", loc_Dorm76_Field);
+        Building studentAffairs = new Building(17, "Student Affairs", loc_StudentAffairs);
+        Building musicAndPerformingArts = new Building(18,"Music and Performing Arts", loc_MPA);
+        Building meteksan = new Building(19, "Meteksan Market", loc_Meteksan);
+        Building statue = new Building(20, "The statue of Ihsan Dogramaci", loc_Statue);
+        Building dormSportsCenter = new Building(21,"Dormatory Sports Center", loc_DormSportsCenter);
 
 
         //Adding Markers
@@ -137,10 +151,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker( new MarkerOptions().position( M_Building.getLocation()).title( "Faculty of Economics, Administrative and Social Sciences"));
         mMap.addMarker( new MarkerOptions().position( EB_Building.getLocation()).title( "Presidency and Faculty of Engineering"));
         mMap.addMarker( new MarkerOptions().position( dinary.getLocation()).title( "Dinary"));
-        mMap.addMarker( new MarkerOptions().position( EE_Building.getLocation()).title( "Electric and Electronics Engineering Building"));
+        mMap.addMarker( new MarkerOptions().position( EE_Building.getLocation()).title( "Electrical and Electronics Engineering Building"));
         mMap.addMarker( new MarkerOptions().position( sportCenter.getLocation()).title( "Main Campus Sport Center"));
         mMap.addMarker( new MarkerOptions().position( FF_Building.getLocation()).title( "Faculty of Art, Design and Architecture"));
         mMap.addMarker( new MarkerOptions().position( V_Building.getLocation()).title( "Faculty of Business Administration"));
+        mMap.addMarker( new MarkerOptions().position( mayFest.getLocation()).title( "MayFest Grass Field"));
+        mMap.addMarker( new MarkerOptions().position( dorm76_Field.getLocation()).title( "Dormatory 76 Grass Field"));
+        mMap.addMarker( new MarkerOptions().position( studentAffairs.getLocation()).title( "Student Affairs"));
+        mMap.addMarker( new MarkerOptions().position( musicAndPerformingArts.getLocation()).title( "Faculty of Music and Performing Arts"));
+        mMap.addMarker( new MarkerOptions().position( meteksan.getLocation()).title( "Meteksan Market"));
+        mMap.addMarker( new MarkerOptions().position( statue.getLocation()).title( "The statue of Ihsan Dogramaci"));
+        mMap.addMarker( new MarkerOptions().position( dormSportsCenter.getLocation()).title( "Dormatory Sports Center"));
 
 
         //Initilize the camera from ODEON
