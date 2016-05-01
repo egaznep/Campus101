@@ -7,7 +7,8 @@ import android.view.MotionEvent;
 import android.widget.FrameLayout;
 
 /**
- * Created by User on 27.4.2016.
+ * Created by Kaan Özkara on 27.4.2016.
+ * This class is created to manage Parent class's interceptions on children
  */
 public class MyFrameLayout extends FrameLayout {
     Context context ;

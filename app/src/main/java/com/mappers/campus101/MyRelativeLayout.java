@@ -6,11 +6,12 @@ import android.view.MotionEvent;
 import android.widget.RelativeLayout;
 
 /**
- * Created by User on 27.4.2016.
+ * Created by Kaan Özkara on 27.4.2016.
+ * This class created in order to manage Parent Layout of buttons
  */
 public class MyRelativeLayout extends RelativeLayout {
 
-    Context context ;
+    //Constructor
     public MyRelativeLayout(Context context)
     {
         super(context);
@@ -21,7 +22,6 @@ public class MyRelativeLayout extends RelativeLayout {
     {
         final int action = MotionEventCompat.getActionMasked(ev);
         if (action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_UP) {
-            // Release the scroll.
             return false; // Do not intercept touch event, let the child handle it
         }
 

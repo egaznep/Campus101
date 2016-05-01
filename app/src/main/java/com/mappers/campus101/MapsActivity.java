@@ -4,9 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -16,7 +14,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 
 import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -33,11 +30,11 @@ import com.mappers.campus101.models.Location;
  * Map activity
  * @author Kaan Özkara & Yılmaz Korkmaz
  * @date 22.04.2016
- * TODO: Show user's location, Handle the Task Button
+ * TODO: Show user's location
  */
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, View.OnClickListener,
-        GoogleMap.OnMyLocationButtonClickListener, ActivityCompat.OnRequestPermissionsResultCallback{
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener, View.OnClickListener
+        , ActivityCompat.OnRequestPermissionsResultCallback{
 
     private GoogleMap mMap;
     private FrameLayout frameLayout;
@@ -46,8 +43,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button buttonTask;
     private Button buttonTeam;
     private VolleyManager mapManager;
-    private LocationManager locManager ;
-    private android.location.Location location ;
 
     //For my Location Button
     private  static final int LOCATION_PERMISSION_REQUEST_CODE = 1 ;
@@ -59,6 +54,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -66,11 +62,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         frameLayout = new FrameLayout(this);
         relativeLayout = new MyRelativeLayout(this);
 
+        //Relating the XML buttons with java counterparts
         buttonQR = (Button) findViewById(R.id.buttonQR);
         buttonTask = (Button) findViewById(R.id.buttonTask);
         buttonTeam = (Button) findViewById(R.id.buttonTeam);
 
-
+        //Assigning listeners
         buttonTask.setOnClickListener(this);
         buttonTeam.setOnClickListener(this);
         buttonQR.setOnClickListener(this);
@@ -79,12 +76,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    private void getMyLocation()
-    {
-        LatLng latLng = new LatLng((location.getLatitude()), location.getLongitude());
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 18);
-        mMap.animateCamera(cameraUpdate);
-    }
 
     /**
      * Manipulates the map once available.
@@ -116,7 +107,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Location loc_FF_Building = new com.mappers.campus101.models.Location(39.865929, 32.748818);
         Location loc_V_Building = new com.mappers.campus101.models.Location(39.867032, 32.749414);
 
-        // initializing buildings
+        // Initializing buildings
         Building odeon = new Building( 0, "Odeon", loc_odeon);
         Building library = new Building( 14, "Library", loc_library);
         Building B_Building = new Building(1, "B Building", loc_B_Building);
@@ -136,27 +127,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Adding Markers
         mMap.addMarker( new MarkerOptions().position( odeon.getLocation()).title( "ODEON"));
-        mMap.addMarker( new MarkerOptions().position( library.getLocation()).title( "Kütüphane"));
-        mMap.addMarker( new MarkerOptions().position( B_Building.getLocation()).title( "Hukuk Fakültesi"));
-        mMap.addMarker( new MarkerOptions().position( G_Building.getLocation()).title( "G Binası"));
-        mMap.addMarker( new MarkerOptions().position( T_Building.getLocation()).title( "T Binası"));
-        mMap.addMarker( new MarkerOptions().position( SB_Building.getLocation()).title( "SB Binası"));
-        mMap.addMarker( new MarkerOptions().position( SA_Building.getLocation()).title( "SA Binası"));
-        mMap.addMarker( new MarkerOptions().position( AH_Buildings.getLocation()).title( "İnsani Bilimler Fakuültesi"));
-        mMap.addMarker( new MarkerOptions().position( M_Building.getLocation()).title( "İktsat Binası"));
-        mMap.addMarker( new MarkerOptions().position( EB_Building.getLocation()).title( "Mühendislik ve Rektörlük Binası"));
-        mMap.addMarker( new MarkerOptions().position( dinary.getLocation()).title( "Yemekhane"));
-        mMap.addMarker( new MarkerOptions().position( EE_Building.getLocation()).title( "Elektrik Elektronik Müh. Binası"));
-        mMap.addMarker( new MarkerOptions().position( sportCenter.getLocation()).title( "Merkez Spor Salonu"));
-        mMap.addMarker( new MarkerOptions().position( FF_Building.getLocation()).title( "Güzel Sanatlar Fakültesi"));
-        mMap.addMarker( new MarkerOptions().position( V_Building.getLocation()).title( "İşletme Fakültesi"));
+        mMap.addMarker( new MarkerOptions().position( library.getLocation()).title( "Library"));
+        mMap.addMarker( new MarkerOptions().position( B_Building.getLocation()).title( "Faculty of Law"));
+        mMap.addMarker( new MarkerOptions().position( G_Building.getLocation()).title( "G Building"));
+        mMap.addMarker( new MarkerOptions().position( T_Building.getLocation()).title( "T Building"));
+        mMap.addMarker( new MarkerOptions().position( SB_Building.getLocation()).title( "Faculty of Science - B"));
+        mMap.addMarker( new MarkerOptions().position( SA_Building.getLocation()).title( "Faculty of Science - A"));
+        mMap.addMarker( new MarkerOptions().position( AH_Buildings.getLocation()).title( "Faculty of Humanities and Letters"));
+        mMap.addMarker( new MarkerOptions().position( M_Building.getLocation()).title( "Faculty of Economics, Administrative and Social Sciences"));
+        mMap.addMarker( new MarkerOptions().position( EB_Building.getLocation()).title( "Presidency and Faculty of Engineering"));
+        mMap.addMarker( new MarkerOptions().position( dinary.getLocation()).title( "Dinary"));
+        mMap.addMarker( new MarkerOptions().position( EE_Building.getLocation()).title( "Electric and Electronics Engineering Building"));
+        mMap.addMarker( new MarkerOptions().position( sportCenter.getLocation()).title( "Main Campus Sport Center"));
+        mMap.addMarker( new MarkerOptions().position( FF_Building.getLocation()).title( "Faculty of Art, Design and Architecture"));
+        mMap.addMarker( new MarkerOptions().position( V_Building.getLocation()).title( "Faculty of Business Administration"));
 
 
+        //Initilize the camera from ODEON
         mMap.moveCamera(CameraUpdateFactory.newLatLng(odeon.getLocation()));
         mMap.moveCamera(CameraUpdateFactory.zoomTo(17));
         MarkerOptions mp = new MarkerOptions();
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mMap.setOnMyLocationButtonClickListener(this);
         enableMyLocation();
 
 
@@ -171,6 +162,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     private void enableMyLocation() {
+        //Requesting the necessary permission to reach the user's location.
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             // Permission to access the location is missing.
@@ -178,22 +170,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             Manifest.permission.ACCESS_COARSE_LOCATION},
                     LOCATION_PERMISSION_REQUEST_CODE);
         }
-        else if (mMap != null){
-                mMap.setMyLocationEnabled(true);
+        //If permission is not declined set the location enabled.
+        else{
+            mMap.setMyLocationEnabled(true);
         }
 
         }
-
-    public boolean onMyLocationButtonClick() {
-        return false;
-    }
-
-    public void onRequesPermissionResult(int requestCode, @NonNull String[] permissions,
-                                         @NonNull int[] grantResults){
-        if(requestCode != LOCATION_PERMISSION_REQUEST_CODE){
-            return ;
-        }
-    }
 
     protected void onResumeFragments(){
         super.onResumeFragments();
@@ -226,9 +208,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     {
         if(v == buttonQR)
         {
+            //Starting the QRActivity
             Intent qrIntent = new Intent(this, QRReaderActivity.class);
             startActivity(qrIntent);
         }
+        //Display the team with an Alert Dialog
         else if( v == buttonTeam)
         {
             relativeLayout.requestDisallowInterceptTouchEvent(true);
@@ -238,7 +222,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             teamMembersString = "ID " + "                            " + "NAME" + "\n" + mapManager.getTeamMembers(); //To be implemented later
 
             alertDialog.setTitle("Team Members");
-            alertDialog.setMessage(teamMembersString);           //Sample Team String
+            alertDialog.setMessage(teamMembersString);
 
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
                     new DialogInterface.OnClickListener() {
@@ -248,6 +232,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     });
             alertDialog.show();
         }
+        //Display the Task Button
         else if ( v == buttonTask)
         {
             mapManager.sendTaskRequest(mapManager.getCurrentStudentID(), this);

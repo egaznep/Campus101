@@ -37,12 +37,14 @@ import com.mappers.campus101.models.Department;
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_sign_up);
 
+            //Relating the Text Views in XML with Java code
             editTextstudentID = (EditText) findViewById(R.id.editTextstudentID);
             editTextName = (EditText) findViewById(R.id.editTextName);
             editTextSurname = (EditText) findViewById(R.id.editTextSurname);
             editTextPassword = (EditText) findViewById(R.id.editTextPassword);
             spinnerDepartment = (Spinner) findViewById(R.id.spinnerDepartment);
 
+            //Initializing the necessary views/variables
             signUpManager = App.getRequestManager();
             buttonRegister = (Button) findViewById(R.id.buttonRegister);
             buttonLogin = (Button) findViewById(R.id.buttonLogin1);
@@ -56,13 +58,14 @@ import com.mappers.campus101.models.Department;
         @Override
         public void onClick(View view)
         {
-
+            //If it is the first time that user signs up the user will click on Sign Up button ( Register)
             if(view == buttonRegister)
             {
                 signUpManager.sendSignUpRequest((editTextstudentID.getText().toString()) ,(editTextPassword.getText()).toString(), (editTextName.getText()).toString() + (editTextSurname.getText()).toString(), "",  department);
                 Intent intent = new Intent( SignUpActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
+            //If user has already Signed up then he will choose login button to log in.
             else if( view == buttonLogin)
             {
                 Intent intent = new Intent( SignUpActivity.this, LoginActivity.class);
