@@ -42,6 +42,7 @@ public class QRReaderActivity extends Activity implements ZXingScannerView.Resul
         mScannerView.stopCamera();
     }
 
+    // Gets the ext of the qr and sends a request to the server
     @Override
     public void handleResult(Result rawResult) {
 

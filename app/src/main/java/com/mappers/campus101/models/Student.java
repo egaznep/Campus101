@@ -55,6 +55,23 @@ public class Student implements Locatable{
         return department;
     }
 
+    @Override
+    public double getLongitude() {
+        return 0;
+    }
+
+    @Override
+    public double getLatitude() {
+        return location.getLatitude();
+    }
+
+    public LatLng getLocation() { return location.getLocation(); }
+
+    public String getCurrentTask()
+    {
+        return currentTaskID;
+    }
+
     // Assigns a task to student
     public void addTask (Task task){
 
@@ -71,36 +88,20 @@ public class Student implements Locatable{
         return history;
     }
 
+    // Setter methods
     @Override
     public void setLocation(double longitude, double latitude) {
         location.setLocation(longitude, latitude);
     }
-
-    @Override
-    public double getLongitude() {
-        return 0;
-    }
-
-    @Override
-    public double getLatitude() {
-        return location.getLatitude();
-    }
-
-    @Override
-    public boolean isAtLocation(Location loc) {
-        return location.isAtLocation( loc);
-    }
-
-    public LatLng getLocation() { return location.getLocation(); }
 
     public void setTask(String taskID)
     {
         currentTaskID = taskID;
     }
 
-    public String getCurrentTask()
-    {
-        return currentTaskID;
+    @Override
+    public boolean isAtLocation(Location loc) {
+        return location.isAtLocation( loc);
     }
 
     public String toString(){

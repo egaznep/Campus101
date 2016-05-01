@@ -9,17 +9,19 @@ import java.security.NoSuchAlgorithmException;
  * @date 17.4.2016
  */
 public class MD5Creator {
+    // Creates MD5 hash of a given string
     public static String createHash (String toBeHashed) {
         byte[] digested;
         String hashText;
         MessageDigest digester = null;
+
         try {
             digester = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        digester.reset();
 
+        digester.reset();
         digester.update(toBeHashed.getBytes());
         digested = digester.digest();
         BigInteger hash = new BigInteger (1, digested);
