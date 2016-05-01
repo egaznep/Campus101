@@ -221,7 +221,7 @@ public class VolleyManager {
         return task;
     }
 
-    // TO-DO : Implement later
+    // getting task from the server and assigning it to the current student
     public void processTask(String response, Activity activity) {
         AlertDialog alert = new AlertDialog.Builder(activity).create();
         Log.i ("Process Task", response);
@@ -270,7 +270,7 @@ public class VolleyManager {
         addRequest(getFinishTaskRequest);
     }
 
-    // TO-DO : Implement later
+    // by sending the string which was hidden in QR code, the task is getting completed and team creating process is getting started
     public void finishTaskResponse(String response, final Activity activity)
     {
         AlertDialog alert = new AlertDialog.Builder(activity).create();
@@ -279,11 +279,12 @@ public class VolleyManager {
         if(response.equals("Updated.")) {
             alert.setMessage("Task is completed successfully.");
             Log.i ("Team", Boolean.toString(team == null));
-
+            // initializing the timer
             teamTimer = new CountDownTimer(300000, 15000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     Log.i("Timer", "Timer");
+                    // sending request to the server which will try to create a team to the current student
                     String requestAddress = mAddress + "/trygenerating.php" + "?placeid="
                             + currentStudent.getCurrentTask();
 
@@ -298,7 +299,7 @@ public class VolleyManager {
                                         String members = getTeamMembers();
                                         Log.i ("Members", members);
                                         teamTimer.cancel();
-
+                                        // creating the students and adding them to the team which is already created in server
                                         while ( members.indexOf("2") > 0 ) {
                                             Student student = new Student(members.substring(0, 8));
                                             members = members.substring(8);
@@ -320,6 +321,8 @@ public class VolleyManager {
                 }
 
                 @Override
+                // at the end of the max waiting time, the team creating rules like being from different departments
+                // will be neglected and server will be forced to create a team
                 public void onFinish() {
                     String enforceQueueAddress = mAddress + "/enforcequeue.php" + "?currentplace="
                             + currentStudent.getCurrentTask() + "&id" + currentStudent.getId();
@@ -356,7 +359,7 @@ public class VolleyManager {
         alert.show();
     }
 
-
+// a method to get team members of current student from server
     public String getTeamMembers () {
         String requestAddress = mAddress + "/getteammembers.php" + "?id=" + currentStudent.getId();
         Log.i ("TAG:", "Get Team Members");
@@ -368,6 +371,7 @@ public class VolleyManager {
                         teamMembers = "";
                         Log.i ("Get Team Members", response);
                         try {
+                            // using xmlpullparser the response which is in xml format is being converted into string
                             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                             factory.setNamespaceAware(true);
                             XmlPullParser xpp = factory.newPullParser();
@@ -378,6 +382,7 @@ public class VolleyManager {
                             {
                                 if (eventType == XmlPullParser.TEXT)
                                 {
+                                    // by the help of counter the teamMembers string is getting shaped
                                     teamMembers =  teamMembers + xpp.getText() +"               ";
                                     if(counter %2 == 1)
                                         teamMembers = teamMembers + "\n" ;
@@ -403,7 +408,7 @@ public class VolleyManager {
         addRequest(request);
         return teamMembers;
     }
-
+    // getting the id number of current student in the application
     public String getCurrentStudentID()
     {
         return currentStudent.getId();

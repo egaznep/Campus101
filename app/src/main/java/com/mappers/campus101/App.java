@@ -33,7 +33,7 @@ public class App extends Application {
     public static Context getAppContext() {
         return singleInstance.getApplicationContext();
     }
-
+    // creating a volleyManager to send requests to server
     public static VolleyManager getRequestManager() {
         return requestManager;
     }

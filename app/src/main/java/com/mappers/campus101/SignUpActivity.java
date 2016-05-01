@@ -75,8 +75,10 @@ import com.mappers.campus101.models.Department;
 
 
         @Override
+        // displaying the departments
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
         {
+            // getting the selected department
             department = adapterView.getItemAtPosition(i).toString();
         }
 
