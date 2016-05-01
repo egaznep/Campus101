@@ -1,5 +1,7 @@
 package com.mappers.campus101.models;
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -28,11 +30,12 @@ public class Student implements Locatable{
         this.surname = surname;
         this.password = password;
         this.department = department;
-        tasks = new ArrayList<>();
+        tasks = new ArrayList<Task>();
     }
     public  Student( String id)
     {
         this.id = id;
+        tasks = new ArrayList<Task>();
     }
 
     // Getter methods
@@ -54,6 +57,7 @@ public class Student implements Locatable{
 
     // Assigns a task to student
     public void addTask (Task task){
+
         tasks.add (task);
     }
 

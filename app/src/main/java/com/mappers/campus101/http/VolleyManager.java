@@ -16,6 +16,7 @@ import com.mappers.campus101.LoginActivity;
 import com.mappers.campus101.MapsActivity;
 import com.mappers.campus101.R;
 import com.mappers.campus101.models.Student;
+import com.mappers.campus101.models.Task;
 import com.mappers.campus101.models.Team;
 
 import org.xml.sax.XMLReader;
@@ -50,6 +51,7 @@ public class VolleyManager {
     private String task;
     private CountDownTimer teamTimer;
     private static Team team;
+    private Task currentTask;
 
     // Constructor sets the VolleySingleton object and address of the server
     public VolleyManager() {
@@ -57,6 +59,7 @@ public class VolleyManager {
         mAddress = "http://46.101.121.195";
         teamMembers = "";
         team = null;
+        currentTask = null;
         }
 
 
@@ -206,7 +209,6 @@ public class VolleyManager {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        task = response;
                         processTask(response, activity);
                     }
                 }, new Response.ErrorListener() {
@@ -226,7 +228,11 @@ public class VolleyManager {
         AlertDialog alert = new AlertDialog.Builder(activity).create();
         Log.i ("Process Task", response);
         if(response.indexOf("-")>0)
+        {
             currentStudent.setTask(response.substring(0,response.indexOf("-")));
+            currentTask = new Task(response.substring(response.indexOf("-") + 1));
+            currentStudent.addTask(currentTask);
+        }
         alert.setTitle("Task:");
         alert.setMessage(response.substring(response.indexOf("-") + 1));
 

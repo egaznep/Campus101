@@ -13,15 +13,18 @@ public class Task {
     // Starting and ending times will be handled also
 
     // Constructor
-    public Task(int number) {
-        this.number = number;
+    public Task(String description) {
         status = TaskStatus.NOT_COMPLETED;
         // Description will be requested from the server according to task number
-        description = "";
+        this.description = description;
     }
 
     // Sets the task completed
-    public void setCompleted () {
+    public void setCompleted() {
         status = TaskStatus.COMPLETED;
+    }
+
+    public String toString() {
+        return "description" + description;
     }
 }
