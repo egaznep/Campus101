@@ -131,6 +131,8 @@ public class VolleyManager {
 
     // TO-DO : Implement later
     public void loggedIn (String response, Activity activity) {
+        currentTask = null;
+        team = null;
         Log.i ("Logged in", response);
         response.replaceAll("\t", "");
         if ( response.equals ("Success") ) {
